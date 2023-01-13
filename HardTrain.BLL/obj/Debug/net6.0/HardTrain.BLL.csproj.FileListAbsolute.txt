@@ -1,0 +1,17 @@
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\obj\Debug\net6.0\HardTrain.BLL.csproj.AssemblyReference.cache
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\obj\Debug\net6.0\HardTrain.BLL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\obj\Debug\net6.0\HardTrain.BLL.AssemblyInfoInputs.cache
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\obj\Debug\net6.0\HardTrain.BLL.AssemblyInfo.cs
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\obj\Debug\net6.0\HardTrain.BLL.csproj.CoreCompileInputs.cache
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\bin\Debug\net6.0\HardTrain.BLL.deps.json
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\bin\Debug\net6.0\HardTrain.BLL.runtimeconfig.json
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\bin\Debug\net6.0\HardTrain.BLL.dll
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\bin\Debug\net6.0\HardTrain.BLL.pdb
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\bin\Debug\net6.0\HardTrain.DAL.dll
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\bin\Debug\net6.0\HardTrain.DAL.pdb
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\obj\Debug\net6.0\HardTrain.BLL.csproj.CopyComplete
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\obj\Debug\net6.0\HardTrain.BLL.dll
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\obj\Debug\net6.0\refint\HardTrain.BLL.dll
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\obj\Debug\net6.0\HardTrain.BLL.pdb
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\obj\Debug\net6.0\HardTrain.BLL.genruntimeconfig.cache
+C:\Users\igory\source\repos\HardTrain\HardTrain.BLL\obj\Debug\net6.0\ref\HardTrain.BLL.dll
