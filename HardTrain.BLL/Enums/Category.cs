@@ -1,8 +1,8 @@
 ﻿namespace HardTrain.DAL.Models.ExersiceFold;
 
-public enum Category
-{
-    Chest,
-    Arm,
-    Leg,
-}
+//public enum Category
+//{
+//    Chest,
+//    Arm,
+//    Leg,
+//}

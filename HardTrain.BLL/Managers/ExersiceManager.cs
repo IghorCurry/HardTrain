@@ -23,11 +23,16 @@ namespace HardTrain.BLL.Managers
             _dataContext = context;
             _logger = logger;
         }
-        public async Task<ExersiceViewModel> CreateAsync(ExersiceModel model)
+        public async Task<ExersiceViewModel> CreateAsync(ExersiceCreateModel model)
         {
             try
             {
-                var exersice = model.Adapt<Exersice>();
+                Exersice exersice = new Exersice();
+                exersice.Description = model.Description;
+                exersice.Title = model.Title;
+                exersice.Category = model.Category;
+
+                //var exersice = model.Adapt<Exersice>();
 
                 _dataContext.Exersices.Add(exersice);
                 await _dataContext.SaveChangesAsync();
@@ -41,6 +46,80 @@ namespace HardTrain.BLL.Managers
             }
         }
 
+       
+
+        public async Task<ExersiceViewModel> GetByIdAsync(Guid id)
+        {
+            try
+            {
+                var model = await _dataContext.Exersices.Select(x => new ExersiceViewModel
+                {
+                    Title = x.Title,
+                    Category = x.Category,
+                    Description = x.Description,
+                }).FirstOrDefaultAsync(x  => x.Id == id);
+
+                return model; 
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while getting job title.");
+                return null;
+            }
+        }
+
+        public async Task<ExersiceViewModel> GetByTitleAsync(string title)
+        {
+            return await _dataContext.Exersices.ProjectToType<ExersiceViewModel>().FirstOrDefaultAsync(x => x.Title == title);
+        }
+
+        public async Task<IEnumerable<ExersiceViewModel>> GetAllAsync()
+        {
+            return await _dataContext.Exersices.Select(x => new ExersiceViewModel
+            {
+                Title = x.Title,
+                Category = x.Category,
+                Description = x.Description,
+            }).ToListAsync();
+
+        }
+
+
+        //public async Task<ExersiceViewModel> UpdateAsync(ExersiceUpdateModel model)
+        //{
+
+        //    try
+        //    {
+        //        var Exersice = model.Adapt<Exersice>();
+
+        //        _dataContext.Entry(Exersice).State = EntityState.Modified;
+
+        //        await _dataContext.SaveChangesAsync();
+        //    }
+        //    //responseResult.StatusCode = StatusCodes.Status204NoContent;
+        //    //responseResult.Data = true;
+
+        //    //return responseResult;
+
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, $"An error occurred while updating job title.");
+        //        //    responseResult.Errors.Add($"An error occurred while updating job titles. Message: {ex.InnerException?.Message ?? ex.Message}");
+        //        //    responseResult.StatusCode = StatusCodes.Status500InternalServerError;
+        //        //    return responseResult;
+        //        //}
+        //    }
+
+
+
+
+        //    //private async Task<bool> HasUniqueFields(JobTitleUpdateModel model)
+        //    //{
+        //    //    return !await _dataContext.JobTitles.AnyAsync(x => x.Name == model.Name && x.Id != model.Id);
+        //    //}
+
+
+        //}
         //public async Task<ResponseResult<bool>> Delete(Guid id)
         //{
         //    ResponseResult<bool> responseResult = new();
@@ -122,93 +201,6 @@ namespace HardTrain.BLL.Managers
 
         //        return responseResult;
         //    }
-        //}
-
-        public async Task<ExersiceViewModel> GetByIdAsync(Guid id)
-        {
-            try
-            {
-                //var model = await _dataContext.JobTitles.ProjectToType<JobTitleViewModel>().FirstOrDefaultAsync(x => x.Id == id);
-
-                //if (model is null)
-                //{
-                //    responseResult.StatusCode = StatusCodes.Status404NotFound;
-                //    responseResult.Errors.Add("Model is not found");
-                //    return responseResult;
-                //}
-
-                //responseResult.Data = model;
-                //responseResult.StatusCode = StatusCodes.Status200OK;
-                //return responseResult;
-                return null;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"An error occurred while getting job title.");
-                return null;
-            }
-        }
-
-        public async Task<IEnumerable<ExersiceViewModel>> GetAllAsync()
-        {
-
-            return await _dataContext.Exersices.ProjectToType<ExersiceViewModel>().ToListAsync();
-
-        }
-
-
-        //public async Task<ResponseResult<bool>> Update(JobTitleUpdateModel model)
-        //{
-        //    ResponseResult<bool> responseResult = new();
-
-        //    if (model is null)
-        //    {
-        //        responseResult.StatusCode = StatusCodes.Status400BadRequest;
-        //        responseResult.Errors.Add("The job title has not been updated. Model is empty.");
-        //        return responseResult;
-        //    }
-
-        //    try
-        //    {
-        //        if (!await IsExisting(model.Id))
-        //        {
-        //            responseResult.StatusCode = StatusCodes.Status400BadRequest;
-        //            responseResult.Errors.Add("The job title has not been updated.");
-        //            responseResult.Errors.Add("The job title with such id does not exist.");
-
-        //            return responseResult;
-        //        }
-
-        //        if (!await HasUniqueFields(model))
-        //        {
-        //            responseResult.StatusCode = StatusCodes.Status409Conflict;
-        //            responseResult.Errors.Add("The job title has not been updated.");
-        //            responseResult.Errors.Add("A job title with such name already exist.");
-
-        //            return responseResult;
-        //        }
-
-        //        var jobTitle = model.Adapt<JobTitle>();
-
-        //        _dataContext.Entry(jobTitle).State = EntityState.Modified;
-
-        //        await _dataContext.SaveChangesAsync();
-        //        responseResult.StatusCode = StatusCodes.Status204NoContent;
-        //        responseResult.Data = true;
-
-        //        return responseResult;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, $"An error occurred while updating job title.");
-        //        responseResult.Errors.Add($"An error occurred while updating job titles. Message: {ex.InnerException?.Message ?? ex.Message}");
-        //        responseResult.StatusCode = StatusCodes.Status500InternalServerError;
-        //        return responseResult;
-        //    }
-        //}
-        //private async Task<bool> HasUniqueFields(JobTitleUpdateModel model)
-        //{
-        //    return !await _dataContext.JobTitles.AnyAsync(x => x.Name == model.Name && x.Id != model.Id);
         //}
     }
 }

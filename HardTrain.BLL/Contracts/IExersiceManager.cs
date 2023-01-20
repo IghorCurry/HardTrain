@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace HardTrain.BLL.Contracts;
 
-public interface IExersiceManager
+public interface IExersiceManager //repository
 {
     Task<IEnumerable<ExersiceViewModel>> GetAllAsync();
     Task<ExersiceViewModel> GetByIdAsync(Guid id);
-    Task<ExersiceViewModel> CreateAsync(ExersiceModel model);
+    Task<ExersiceViewModel> GetByTitleAsync(string name);
+    Task<ExersiceViewModel> CreateAsync(ExersiceCreateModel model);
     //Task<ExersiceViewModel> UpdateAsync(ExersiceUpdateModel model);
     //Task<bool> DeleteAsync(Guid id);
     //Task<bool> DeleteAsync(Guid[] ids);

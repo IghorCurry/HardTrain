@@ -24,7 +24,7 @@ namespace HardTrain.DAL.Entities.ExersiceEntities
         [ForeignKey("ExersiceKey")]
         public Exersice Exersice { get; set; }
 
-        public int TrainingTemplateid { get; set; }
+        public int TrainingTemplateId { get; set; }
         [ForeignKey("TrainingTemplateKey")]
         public TrainingTemplate TrainingTemplate { get; set; }
     }

@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HardTrain.BLL.Contracts;
 using HardTrain.BLL.Managers;
+using Microsoft.OpenApi.Models;
 
 namespace HardTrain.BLL.Extension;
 
@@ -20,4 +21,14 @@ public static class ProgramExtension
     {
         services.AddScoped<IExersiceManager, ExersiceManager>();
     }
+
+    //public static void ConnectSwagger(this IServiceCollection services)
+    //{
+    //    services.AddSwaggerGen(options =>
+    //    {
+    //        options.SwaggerDoc("v1.0", new OpenApiInfo { Title = "HardTrain.Web", Version = "v1.0" });
+    //        options.OperationFilter<RemoveVersionFromParameter>();
+    //    });
+    //}
 }
+    

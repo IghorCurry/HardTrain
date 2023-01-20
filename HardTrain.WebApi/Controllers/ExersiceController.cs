@@ -22,6 +22,7 @@ public class ExersiceController : ControllerBase
         [HttpGet("get-all")]
         public async Task<IActionResult> Get()
         {
+            var V = await _exersiceManager.GetAllAsync(); 
             return Ok(await _exersiceManager.GetAllAsync());
         }
 
@@ -32,9 +33,14 @@ public class ExersiceController : ControllerBase
         {
             return Ok(await _exersiceManager.GetByIdAsync(id));
         }
+        [HttpGet("{title}")]
+        public async Task<IActionResult> Get(string title)
+        {
+            return Ok(await _exersiceManager.GetByTitleAsync(title));
+        }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(ExersiceModel exersice)
+        [HttpPost("create")]
+        public async Task<IActionResult> Create(ExersiceCreateModel exersice)
         {
             return Ok(await _exersiceManager.CreateAsync(exersice));
         }

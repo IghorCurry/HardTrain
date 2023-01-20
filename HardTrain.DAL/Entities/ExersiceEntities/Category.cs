@@ -2,7 +2,7 @@
 
 public enum Category
 {
-    Chest,
     Arm,
+    Chest,
     Leg,
 }

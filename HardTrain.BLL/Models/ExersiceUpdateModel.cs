@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HardTrain.BLL.Models
 {
-    public record ExersiceUpdateModel : ExersiceModel
+    public record ExersiceUpdateModel : ExersiceCreateModel
     {
         public Guid Id { get; init; }
     }

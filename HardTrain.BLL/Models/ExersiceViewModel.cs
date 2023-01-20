@@ -8,7 +8,6 @@ namespace HardTrain.BLL.Models
 {
     public record ExersiceViewModel : ExersiceUpdateModel
     {
-        public DateTime CrearedAt { get; init; }
-        public DateTime ModifieAt { get; init; }
+        
     }
 }

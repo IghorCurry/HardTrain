@@ -1,7 +1,7 @@
 ﻿namespace HardTrain.BLL.Enums
 {
-    public class Class1
-    {
+    //    public class Class1
+    //    {
 
-    }
+    //    }
 }
