@@ -77,6 +77,7 @@ namespace HardTrain.BLL.Managers
         {
             return await _dataContext.Exersices.Select(x => new ExersiceViewModel
             {
+                Id = x.Id,
                 Title = x.Title,
                 Category = x.Category,
                 Description = x.Description,

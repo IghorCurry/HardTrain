@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -14,8 +15,7 @@ namespace HardTrain.DAL.Migrations
                 name: "Exersices",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Category = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -29,8 +29,7 @@ namespace HardTrain.DAL.Migrations
                 name: "TrainingTemplates",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Order = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -41,11 +40,10 @@ namespace HardTrain.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Templates",
+                name: "ExersiceTemplates",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -53,21 +51,21 @@ namespace HardTrain.DAL.Migrations
                     Reps = table.Column<int>(type: "int", nullable: false),
                     Time = table.Column<int>(type: "int", nullable: false),
                     ExersiceId = table.Column<int>(type: "int", nullable: false),
-                    ExersiceKey = table.Column<int>(type: "int", nullable: false),
-                    TrainingTemplateid = table.Column<int>(type: "int", nullable: false),
-                    TrainingTemplateKey = table.Column<int>(type: "int", nullable: false)
+                    ExersiceKey = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TrainingTemplateId = table.Column<int>(type: "int", nullable: false),
+                    TrainingTemplateKey = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Templates", x => x.Id);
+                    table.PrimaryKey("PK_ExersiceTemplates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Templates_Exersices_ExersiceKey",
+                        name: "FK_ExersiceTemplates_Exersices_ExersiceKey",
                         column: x => x.ExersiceKey,
                         principalTable: "Exersices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Templates_TrainingTemplates_TrainingTemplateKey",
+                        name: "FK_ExersiceTemplates_TrainingTemplates_TrainingTemplateKey",
                         column: x => x.TrainingTemplateKey,
                         principalTable: "TrainingTemplates",
                         principalColumn: "Id",
@@ -75,13 +73,13 @@ namespace HardTrain.DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Templates_ExersiceKey",
-                table: "Templates",
+                name: "IX_ExersiceTemplates_ExersiceKey",
+                table: "ExersiceTemplates",
                 column: "ExersiceKey");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Templates_TrainingTemplateKey",
-                table: "Templates",
+                name: "IX_ExersiceTemplates_TrainingTemplateKey",
+                table: "ExersiceTemplates",
                 column: "TrainingTemplateKey");
         }
 
@@ -89,7 +87,7 @@ namespace HardTrain.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Templates");
+                name: "ExersiceTemplates");
 
             migrationBuilder.DropTable(
                 name: "Exersices");
