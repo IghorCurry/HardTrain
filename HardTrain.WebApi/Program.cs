@@ -18,13 +18,7 @@ builder.Services.AddDbContext<DataContext>(opts =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-        options =>
-        {
-            options.LoginPath = new PathString("/auth/login");
-            options.AccessDeniedPath = new PathString("/auth/denied");
-        });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

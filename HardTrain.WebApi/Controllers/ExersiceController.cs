@@ -28,7 +28,7 @@ public class ExersiceController : ControllerBase
 
 
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Get(Guid id)
         {
             return Ok(await _exersiceManager.GetByIdAsync(id));
