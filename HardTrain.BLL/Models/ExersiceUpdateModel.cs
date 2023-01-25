@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HardTrain.BLL.Models
+namespace HardTrain.BLL.Models;
+
+public record ExersiceUpdateModel : ExersiceCreateModel
 {
-    public record ExersiceUpdateModel : ExersiceCreateModel
-    {
-        public Guid Id { get; init; }
-    }
+    public Guid Id { get; init; }
 }

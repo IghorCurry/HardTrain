@@ -20,7 +20,6 @@ namespace HardTrain.BLL.Managers
     {
         private readonly DataContext _dataContext;
         private readonly ILogger _logger;
-        private readonly IMapper _mapper;
 
         public ExersiceManager(DataContext context, ILogger<ExersiceManager> logger)
         {
@@ -41,7 +40,7 @@ namespace HardTrain.BLL.Managers
 
                 _dataContext.Exersices.Add(exersice);
                 await _dataContext.SaveChangesAsync();
-                return exersice.Adapt<ExersiceViewModel>();
+                return exersice.Adapt<ExersiceViewModel>();//need to be replaced
             }
             catch (Exception ex)
             {
@@ -166,7 +165,6 @@ namespace HardTrain.BLL.Managers
             foreach (var id in ids)
             {
                 var exersice = new Exersice { Id = id };
-
                 try
                 {
                     _dataContext.Entry(exersice).State = EntityState.Deleted;
@@ -178,7 +176,7 @@ namespace HardTrain.BLL.Managers
                     _logger.LogError(ex, $"An error occurred while deleting a job title.");
                     return false;
                 }
-                return false;
+                //return false;
             }
             return true;
         }

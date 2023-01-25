@@ -90,6 +90,7 @@ public class ExersiceController : ControllerBase
         {
             return BadRequest(ModelState);
         }
+        var exersiceMap = _mapper.Map<Exersice>(exersice);
 
         return Ok(await _exersiceManager.UpdateAsync(exersice));
     }
@@ -106,6 +107,7 @@ public class ExersiceController : ControllerBase
         }
         else
         {
+            var exersiceToDelete = _exersiceManager.GetByIdAsync(id);
             return Ok(await _exersiceManager.DeleteAsync(id));
         }
 
