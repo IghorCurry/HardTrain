@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using HardTrain.DAL.Enums;
 
 namespace HardTrain.DAL.Entities.ExersiceEntities;
 

@@ -3,16 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HardTrain.DAL.Entities.ExersiceEntities
 {
-    public class TemplateExersice
+    public class TrainingExersice
     {
         [Key]
         public Guid Id { get; set; }
-
-        public string Title { get; set; }
-
-        public string Category { get; set; }
-
-        public string Description { get; set; }
 
         public int Weight { get; set; }
 
@@ -20,12 +14,13 @@ namespace HardTrain.DAL.Entities.ExersiceEntities
 
         public int Time { get; set; }
 
-        public int ExersiceId { get; set; }
+        public Guid ExersiceId { get; set; }
         [ForeignKey("ExersiceKey")]
         public Exersice Exersice { get; set; }
 
-        public int TrainingTemplateId { get; set; }
-        [ForeignKey("TrainingTemplateKey")]
-        public TrainingTemplate TrainingTemplate { get; set; }
+        public Guid TrainingId { get; set; }
+        [ForeignKey("TrainingKey")]
+        public Training Training { get; set; }
+
     }
 }

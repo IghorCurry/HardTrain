@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HardTrain.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230121205200_Init")]
+    [Migration("20230124210649_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -47,65 +47,13 @@ namespace HardTrain.DAL.Migrations
                     b.ToTable("Exersices");
                 });
 
-            modelBuilder.Entity("HardTrain.DAL.Entities.ExersiceEntities.TemplateExersice", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ExersiceId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("ExersiceKey")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Reps")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Time")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TrainingTemplateId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("TrainingTemplateKey")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Weight")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExersiceKey");
-
-                    b.HasIndex("TrainingTemplateKey");
-
-                    b.ToTable("ExersiceTemplates");
-                });
-
-            modelBuilder.Entity("HardTrain.DAL.Entities.ExersiceEntities.TrainingTemplate", b =>
+            modelBuilder.Entity("HardTrain.DAL.Entities.ExersiceEntities.Training", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Order")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -118,7 +66,43 @@ namespace HardTrain.DAL.Migrations
                     b.ToTable("TrainingTemplates");
                 });
 
-            modelBuilder.Entity("HardTrain.DAL.Entities.ExersiceEntities.TemplateExersice", b =>
+            modelBuilder.Entity("HardTrain.DAL.Entities.ExersiceEntities.TrainingExersice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ExersiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ExersiceKey")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Reps")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Time")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("TrainingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TrainingKey")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExersiceKey");
+
+                    b.HasIndex("TrainingKey");
+
+                    b.ToTable("ExersiceTemplates");
+                });
+
+            modelBuilder.Entity("HardTrain.DAL.Entities.ExersiceEntities.TrainingExersice", b =>
                 {
                     b.HasOne("HardTrain.DAL.Entities.ExersiceEntities.Exersice", "Exersice")
                         .WithMany()
@@ -126,15 +110,15 @@ namespace HardTrain.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HardTrain.DAL.Entities.ExersiceEntities.TrainingTemplate", "TrainingTemplate")
+                    b.HasOne("HardTrain.DAL.Entities.ExersiceEntities.Training", "Training")
                         .WithMany()
-                        .HasForeignKey("TrainingTemplateKey")
+                        .HasForeignKey("TrainingKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Exersice");
 
-                    b.Navigation("TrainingTemplate");
+                    b.Navigation("Training");
                 });
 #pragma warning restore 612, 618
         }

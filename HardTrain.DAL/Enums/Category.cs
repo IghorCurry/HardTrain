@@ -1,4 +1,4 @@
-﻿namespace HardTrain.DAL.Entities.ExersiceEntities;
+﻿namespace HardTrain.DAL.Enums;
 
 public enum Category
 {

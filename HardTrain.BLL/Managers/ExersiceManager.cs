@@ -1,8 +1,11 @@
-﻿using HardTrain.BLL.Contracts;
+﻿using AutoMapper;
+using HardTrain.BLL.Contracts;
 using HardTrain.BLL.Models;
 using HardTrain.DAL;
 using HardTrain.DAL.Entities.ExersiceEntities;
+using HardTrain.DAL.Enums;
 using Mapster;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -17,17 +20,19 @@ namespace HardTrain.BLL.Managers
     {
         private readonly DataContext _dataContext;
         private readonly ILogger _logger;
+        private readonly IMapper _mapper;
 
         public ExersiceManager(DataContext context, ILogger<ExersiceManager> logger)
         {
             _dataContext = context;
             _logger = logger;
         }
-        public async Task<ExersiceViewModel> CreateAsync(ExersiceCreateModel model)
+        public async Task<ExersiceViewModel> CreateExersiceAsync(ExersiceCreateModel model)
         {
             try
             {
                 Exersice exersice = new Exersice();
+                exersice.Id = model.Id;
                 exersice.Description = model.Description;
                 exersice.Title = model.Title;
                 exersice.Category = model.Category;
@@ -36,7 +41,6 @@ namespace HardTrain.BLL.Managers
 
                 _dataContext.Exersices.Add(exersice);
                 await _dataContext.SaveChangesAsync();
-
                 return exersice.Adapt<ExersiceViewModel>();
             }
             catch (Exception ex)
@@ -46,21 +50,22 @@ namespace HardTrain.BLL.Managers
             }
         }
 
-       
+
 
         public async Task<ExersiceViewModel> GetByIdAsync(Guid id)
         {
             try
             {
-                var model = await _dataContext.Exersices.Select(x => new ExersiceViewModel
+                //var model = await _dataContext.Exersices.Select(x => new ExersiceViewModel
+                return await _dataContext.Exersices.Select(x => new ExersiceViewModel
                 {
                     Id = x.Id,
                     Title = x.Title,
                     Category = x.Category,
                     Description = x.Description,
-                }).FirstOrDefaultAsync(x  => x.Id == id);
+                }).FirstOrDefaultAsync(x => x.Id == id);
 
-                return model; 
+                //return model; 
             }
             catch (Exception ex)
             {
@@ -86,34 +91,44 @@ namespace HardTrain.BLL.Managers
 
         }
 
+        public async Task<bool> ExersiceExists(Guid id)
+        {
+            return await _dataContext.Exersices.AnyAsync(p => p.Id == id);
+        }
 
-        //public async Task<ExersiceViewModel> UpdateAsync(ExersiceUpdateModel model)
+        //public Task<ExersiceViewModel> UpdateAsync(ExersiceUpdateModel model)
         //{
-
-        //    try
-        //    {
-        //        var Exersice = model.Adapt<Exersice>();
-
-        //        _dataContext.Entry(Exersice).State = EntityState.Modified;
-
-        //        await _dataContext.SaveChangesAsync();
-        //    }
-        //    //responseResult.StatusCode = StatusCodes.Status204NoContent;
-        //    //responseResult.Data = true;
-
-        //    //return responseResult;
-
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, $"An error occurred while updating job title.");
-        //        //    responseResult.Errors.Add($"An error occurred while updating job titles. Message: {ex.InnerException?.Message ?? ex.Message}");
-        //        //    responseResult.StatusCode = StatusCodes.Status500InternalServerError;
-        //        //    return responseResult;
-        //        //}
-        //    }
+        //    throw new NotImplementedException();
+        //}
 
 
+        public async Task<ExersiceViewModel> UpdateAsync(ExersiceUpdateModel model)
+        {
+            try
+            {
+                var exersice = model.Adapt<Exersice>();
+                var exersice2 = new Exersice
+                {
+                    Title = model.Title,
+                    Id = model.Id,
+                    Category = model.Category,
+                    Description = model.Description,
+                };
 
+                _dataContext.Entry(exersice).State = EntityState.Modified;
+
+                //_dataContext.Update(exersice2);
+
+                await _dataContext.SaveChangesAsync();
+
+                return exersice.Adapt<ExersiceViewModel>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while updating job title.");
+                return null;
+            }
+        }
 
         //    //private async Task<bool> HasUniqueFields(JobTitleUpdateModel model)
         //    //{
@@ -121,88 +136,51 @@ namespace HardTrain.BLL.Managers
         //    //}
 
 
-        //}
-        //public async Task<ResponseResult<bool>> Delete(Guid id)
-        //{
-        //    ResponseResult<bool> responseResult = new();
 
-        //    if (id == default)
-        //    {
-        //        responseResult.StatusCode = StatusCodes.Status400BadRequest;
-        //        responseResult.Errors.Add("Invaid ID");
-        //        return responseResult;
-        //    }
-        //    if (!await IsExisting(id))
-        //    {
-        //        responseResult.StatusCode = StatusCodes.Status400BadRequest;
-        //        responseResult.Errors.Add("The entity has not been deleted.");
-        //        responseResult.Errors.Add("The entity with such id does not exist.");
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            
+            var exersice = new Exersice { Id = id };
 
-        //        return responseResult;
-        //    }
+            try
+            {
+                _dataContext.Entry(exersice).State = EntityState.Deleted;
+                await _dataContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while deleting a job title.");
+                return false;
+            }
+        }
 
-        //    var jobTitle = new JobTitle { Id = id };
+        public async Task<bool> DeleteAsync(Guid[] ids)
+        {
 
-        //    try
-        //    {
-        //        _dataContext.Entry(jobTitle).State = EntityState.Deleted;
-        //        await _dataContext.SaveChangesAsync();
+            if (ids is null || !ids.Any())
+            {
+                return false;
+            }
+            
+            foreach (var id in ids)
+            {
+                var exersice = new Exersice { Id = id };
 
-        //        responseResult.StatusCode = StatusCodes.Status204NoContent;
-        //        responseResult.Data = true;
-
-        //        return responseResult;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, $"An error occurred while deleting a job title.");
-        //        responseResult.Errors.Add($"An error occurred while deleting a job title. Message: {ex.InnerException?.Message ?? ex.Message}");
-        //        responseResult.StatusCode = StatusCodes.Status500InternalServerError;
-
-        //        return responseResult;
-        //    }
-        //}
-
-        //public async Task<ResponseResult<bool>> Delete(Guid[] ids)
-        //{
-        //    ResponseResult<bool> responseResult = new();
-
-        //    if (ids is null || !ids.Any())
-        //    {
-        //        responseResult.StatusCode = StatusCodes.Status400BadRequest;
-        //        responseResult.Errors.Add("Invaid IDs");
-        //        return responseResult;
-        //    }
-
-        //    await using var transaction = await _dataContext.Database.BeginTransactionAsync();
-
-        //    foreach (var id in ids)
-        //    {
-        //        var deleteResult = await Delete(id);
-        //        if (!deleteResult.IsSuccessful)
-        //        {
-        //            transaction.Rollback();
-        //            responseResult.StatusCode = deleteResult.StatusCode;
-        //            responseResult.Errors = deleteResult.Errors;
-        //            return responseResult;
-        //        }
-        //    }
-
-        //    try
-        //    {
-        //        transaction.Commit();
-        //        responseResult.StatusCode = StatusCodes.Status204NoContent;
-        //        responseResult.Data = true;
-        //        return responseResult;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, $"An error occurred while deleting job titles.");
-        //        responseResult.Errors.Add($"An error occurred while deleting a job titles. Message: {ex.InnerException?.Message ?? ex.Message}");
-        //        responseResult.StatusCode = StatusCodes.Status500InternalServerError;
-
-        //        return responseResult;
-        //    }
-        //}
+                try
+                {
+                    _dataContext.Entry(exersice).State = EntityState.Deleted;
+                    await _dataContext.SaveChangesAsync();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"An error occurred while deleting a job title.");
+                    return false;
+                }
+                return false;
+            }
+            return true;
+        }
     }
 }

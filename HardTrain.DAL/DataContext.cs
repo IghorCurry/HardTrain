@@ -7,9 +7,9 @@ namespace HardTrain.DAL
     {
         public DbSet<Exersice> Exersices { get; set; }
 
-        public DbSet<TemplateExersice> ExersiceTemplates { get; set; }
+        public DbSet<TrainingExersice> ExersiceTemplates { get; set; }
 
-        public DbSet<TrainingTemplate> TrainingTemplates { get; set; }
+        public DbSet<Training> TrainingTemplates { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {

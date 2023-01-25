@@ -12,15 +12,35 @@ using System.Threading.Tasks;
 using HardTrain.BLL.Contracts;
 using HardTrain.BLL.Managers;
 using Microsoft.OpenApi.Models;
+using HardTrain.BLL.Helper;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HardTrain.BLL.Extension;
 
 public static class ProgramExtension
 {
+    public static void AddAutoMapper(this IServiceCollection services)
+    {
+        services.AddScoped<Profile, MappingProfiles>();
+    }
+
     public static void AddBllManagers(this IServiceCollection services)
     {
         services.AddScoped<IExersiceManager, ExersiceManager>();
     }
+
+    //public static void AddAuthorization(this IServiceCollection services)
+    //{
+    //    services.AddAuthorization(options =>
+    //    {
+    //        options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+    //            .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+    //            .RequireAuthenticatedUser()
+    //            .Build();
+    //    });
+    //}
+
 
     //public static void ConnectSwagger(this IServiceCollection services)
     //{
