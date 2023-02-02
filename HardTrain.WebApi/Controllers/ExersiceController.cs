@@ -75,7 +75,7 @@ public class ExersiceController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var exersiceMap = _mapper.Map<Exersice>(exersice);
+        //var exersiceMap = _mapper.Map<Exersice>(exersice);
 
         return Ok(await _exersiceManager.CreateAsync(exersice));
     }

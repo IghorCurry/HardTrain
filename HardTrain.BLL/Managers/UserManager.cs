@@ -47,6 +47,7 @@ namespace HardTrain.BLL.Managers
             }
         }
 
+
         public async Task<bool> DeleteAsync(Guid id)
         {
             var user = new User { Id = id };

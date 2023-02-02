@@ -2,6 +2,7 @@
 using HardTrain.BLL.Contracts;
 using HardTrain.BLL.Managers;
 using HardTrain.BLL.Models.ExersiceModels;
+using HardTrain.BLL.Models.TrainingModels;
 using HardTrain.BLL.Models.UserModels;
 using HardTrain.DAL.Entities.TrainingScope;
 using HardTrain.DAL.Entities.UserResultScope;
@@ -62,6 +63,22 @@ namespace HardTrain.WebApi.Controllers
 
 
             return Ok(await _userManager.CreateUserAsync(user));
+        }
+        
+        [HttpPut]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> Update(Guid id, UserUpdateModel user)
+        {
+
+            if (id == default || user is null || id != user.Id)
+            {
+                return BadRequest(ModelState);
+            }
+            var trainingMap = _mapper.Map<User>(user);
+
+            return Ok(await _userManager.UpdateAsync(user));
         }
 
         [HttpDelete("{id}/delete-by-id")]

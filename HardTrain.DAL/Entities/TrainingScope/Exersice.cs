@@ -12,6 +12,7 @@ public class Exersice
     public int DefaultReps { get; set; }
 
     public int DefaultTime { get; set; }
+
     public Category Category { get; set; }
 
     public string Description { get; set; }

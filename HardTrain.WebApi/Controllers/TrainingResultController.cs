@@ -62,6 +62,21 @@ namespace HardTrain.WebApi.Controllers
             return Ok(await _trainingResultManager.CreateTrainingResultAsync(training));
         }
 
+        [HttpPut]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> Update(Guid id, TrainingResultUpdateModel training)
+        {
+
+            if (id == default || training is null || id != training.Id)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(await _trainingResultManager.UpdateAsync(training));
+        }
+
         [HttpDelete("{id}/delete-by-id")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]

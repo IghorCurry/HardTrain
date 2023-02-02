@@ -24,12 +24,12 @@ namespace HardTrain.BLL.Managers
         {
             try
             {
-                Exersice exersice = new Exersice();
-                exersice.Description = model.Description;
-                exersice.Title = model.Title;
-                exersice.Category = model.Category;
+                //Exersice exersice = new Exersice();
+                //exersice.Description = model.Description;
+                //exersice.Title = model.Title;
+                //exersice.Category = model.Category;
 
-                //var exersice = model.Adapt<Exersice>();
+                var exersice = model.Adapt<Exersice>();
 
                 _dataContext.Exersices.Add(exersice);
                 await _dataContext.SaveChangesAsync();

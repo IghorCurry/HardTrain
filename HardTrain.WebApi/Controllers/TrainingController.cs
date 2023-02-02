@@ -26,7 +26,7 @@ namespace HardTrain.WebApi.Controllers
         public async Task<IActionResult> Get()
         {
 
-            var V = _mapper.Map<List<TrainingResultViewModel>>(await _trainingManager.GetAllAsync());
+            var V = _mapper.Map<List<TrainingViewModel>>(await _trainingManager.GetAllAsync());
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -43,7 +43,7 @@ namespace HardTrain.WebApi.Controllers
             if (!await _trainingManager.IsExists(id))
                 return NotFound();
 
-            var training = _mapper.Map<TrainingResultViewModel>(await _trainingManager.GetByIdAsync(id));
+            var training = _mapper.Map<TrainingViewModel>(await _trainingManager.GetByIdAsync(id));
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
