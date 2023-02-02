@@ -1,19 +1,16 @@
-﻿using HardTrain.BLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HardTrain.BLL.Models.ExersiceModels;
 
 namespace HardTrain.BLL.Contracts;
 
-public interface IExersiceManager //repository
+public interface IExersiceManager
 {
     Task<IEnumerable<ExersiceViewModel>> GetAllAsync();
     Task<ExersiceViewModel> GetByIdAsync(Guid id);
+    //Task<TrainingViewModel> GetByTitleAsync(string name);
+    //Task<TrainingViewModel> GetByCategoryAsync(Category category);
     Task<ExersiceViewModel> GetByTitleAsync(string name);
-    Task<ExersiceViewModel> CreateExersiceAsync(ExersiceCreateModel model);
-    Task<bool> ExersiceExists(Guid id);
+    Task<ExersiceViewModel> CreateAsync(ExersiceCreateModel model);
+    Task<bool> IsExists(Guid id);
     Task<ExersiceViewModel> UpdateAsync(ExersiceUpdateModel model);
     Task<bool> DeleteAsync(Guid id);
     Task<bool> DeleteAsync(Guid[] ids);

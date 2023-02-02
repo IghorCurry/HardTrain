@@ -1,20 +1,8 @@
-﻿using Mapster.Utils;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using Microsoft.IdentityModel.Protocols;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using HardTrain.BLL.Contracts;
-using HardTrain.BLL.Managers;
-using Microsoft.OpenApi.Models;
 using HardTrain.BLL.Helper;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+using HardTrain.BLL.Managers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace HardTrain.BLL.Extension;
 
@@ -28,6 +16,9 @@ public static class ProgramExtension
     public static void AddBllManagers(this IServiceCollection services)
     {
         services.AddScoped<IExersiceManager, ExersiceManager>();
+        services.AddScoped<ITrainingManager, TrainingManager>();
+        services.AddScoped<IUserManager, UserManager>();
+        services.AddScoped<ITrainingResultManager, TrainingResultManager>();
     }
 
     //public static void AddAuthorization(this IServiceCollection services)
@@ -51,4 +42,3 @@ public static class ProgramExtension
     //    });
     //}
 }
-    

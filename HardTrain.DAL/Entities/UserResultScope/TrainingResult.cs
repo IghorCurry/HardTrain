@@ -1,11 +1,6 @@
-﻿using HardTrain.DAL.Entities.ExersiceEntities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HardTrain.DAL.Entities.TrainingScope;
+using Microsoft.Identity.Client;
+using System.Diagnostics;
 
 namespace HardTrain.DAL.Entities.UserResultScope
 {
@@ -16,9 +11,15 @@ namespace HardTrain.DAL.Entities.UserResultScope
 
         public DateTime ExecutionDate { get; set; }
 
-        public Guid TrainingResultId { get; set; }
+        public Guid TrainingId { get; set; }
 
         public Training Training { get; set; }
+
+        public Guid UserId { get; set; }
+        public User User { get; set; }
+        public string Note { get; set; }//updatemodel1
+
+        public ICollection<ExersiceResult> ExersiceResults { get; set; }
 
     }
 }

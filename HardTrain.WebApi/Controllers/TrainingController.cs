@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using HardTrain.BLL.Contracts;
 using HardTrain.BLL.Managers;
-using HardTrain.BLL.Models;
-using HardTrain.DAL.Entities.ExersiceEntities;
+using HardTrain.BLL.Models.TrainingModels;
+using HardTrain.BLL.Models.TrainingResultModels;
+using HardTrain.DAL.Entities.TrainingScope;
 using HardTrain.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +11,7 @@ namespace HardTrain.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TrainingController : ControllerBase
+    public class TrainingController : Controller
     {
         private readonly ITrainingManager _trainingManager;
         private readonly IMapper _mapper;
@@ -21,11 +22,11 @@ namespace HardTrain.WebApi.Controllers
             _mapper = mapper;
         }
         
-        [HttpGet("get-all")]
+        [HttpGet]
         public async Task<IActionResult> Get()
         {
 
-            var V = _mapper.Map<List<TrainingViewModel>>(await _trainingManager.GetAllAsync());
+            var V = _mapper.Map<List<TrainingResultViewModel>>(await _trainingManager.GetAllAsync());
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -34,39 +35,39 @@ namespace HardTrain.WebApi.Controllers
         }
 
 
-        [HttpGet("{id}/get-by-id")]
+        [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(Training))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Get(Guid id)
         {
-            if (!await _trainingManager.TrainingExists(id))
+            if (!await _trainingManager.IsExists(id))
                 return NotFound();
 
-            var exersice = _mapper.Map<TrainingViewModel>(await _trainingManager.GetByIdAsync(id));
+            var training = _mapper.Map<TrainingResultViewModel>(await _trainingManager.GetByIdAsync(id));
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             return Ok(await _trainingManager.GetByIdAsync(id));
         }
-        [HttpGet("{title}/get-by-title")]
-        [ProducesResponseType(200, Type = typeof(Training))]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> Get(string title)
-        {
-            return Ok(await _trainingManager.GetByTitleAsync(title));
-        }
+        //[HttpGet("{title}")]
+        //[ProducesResponseType(200, Type = typeof(Training))]
+        //[ProducesResponseType(400)]
+        //public async Task<IActionResult> Get(string title)
+        //{
+        //    return Ok(await _trainingManager.GetByTitleAsync(title));
+        //}
         
-        [HttpGet("{category}/get-by-category")]
-        [ProducesResponseType(200, Type = typeof(Training))]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> Get(Category category)
-        {
-            return Ok(await _trainingManager.GetByCategoryAsync(category));
-        }
+        //[HttpGet("{category}")]
+        //[ProducesResponseType(200, Type = typeof(Training))]
+        //[ProducesResponseType(400)]
+        //public async Task<IActionResult> Get(Category category)
+        //{
+        //    return Ok(await _trainingManager.GetByCategoryAsync(category));
+        //}
 
-        [HttpPost("create")]
-        [ProducesResponseType(204)]
+        [HttpPost]
+        [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Create(TrainingCreateModel training)
         {
@@ -81,9 +82,9 @@ namespace HardTrain.WebApi.Controllers
             return Ok(await _trainingManager.CreateTrainingAsync(training));
         }
 
-        [HttpPut("update")]
+        [HttpPut]
         [ProducesResponseType(400)]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> Update(Guid id, TrainingUpdateModel training)
         {
@@ -97,19 +98,19 @@ namespace HardTrain.WebApi.Controllers
             return Ok(await _trainingManager.UpdateAsync(training));
         }
 
-        [HttpDelete("{id}/delete-by-id")]
+        [HttpDelete]
         [ProducesResponseType(400)]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            if (!await _trainingManager.TrainingExists(id))
+            if (!await _trainingManager.IsExists(id))
             {
                 return NotFound();
             }
             else
             {
-                var exersiceToDelete = _trainingManager.GetByIdAsync(id);
+                var trainingToDelete = _trainingManager.GetByIdAsync(id);
                 return Ok(await _trainingManager.DeleteAsync(id));
             }
 
@@ -117,12 +118,23 @@ namespace HardTrain.WebApi.Controllers
                 return BadRequest(ModelState);
         }
 
-        [HttpDelete("{ids}/delete-by-ids")]
+        [HttpDelete("bulk")]
         public async Task<IActionResult> Delete(Guid[] ids)
         {
             return Ok(await _trainingManager.DeleteAsync(ids));
         }
 
+        [HttpPost("add-exersice")]
+        public async Task<IActionResult> AddExersice(Guid trainingId, Guid exersiceId)
+        {
+           return Ok(await _trainingManager.AddExersiceAsync(trainingId, exersiceId));
+        }
+        
+        [HttpDelete("remove-exersice")]
+        public async Task<IActionResult> RemoveExersice(Guid trainingId, Guid exersiceId)
+        {
+            return Ok(await _trainingManager.RemoveExersiceAsync(trainingId, exersiceId));
+        }
     }
 }
 

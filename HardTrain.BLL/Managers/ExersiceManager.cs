@@ -1,18 +1,12 @@
-﻿using AutoMapper;
-using HardTrain.BLL.Contracts;
-using HardTrain.BLL.Models;
+﻿using HardTrain.BLL.Contracts;
+using HardTrain.BLL.Models.ExersiceModels;
 using HardTrain.DAL;
-using HardTrain.DAL.Entities.ExersiceEntities;
-using HardTrain.DAL.Enums;
+using HardTrain.DAL.Entities.TrainingScope;
 using Mapster;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
+using System.Transactions;
 
 namespace HardTrain.BLL.Managers
 {
@@ -26,12 +20,11 @@ namespace HardTrain.BLL.Managers
             _dataContext = context;
             _logger = logger;
         }
-        public async Task<ExersiceViewModel> CreateExersiceAsync(ExersiceCreateModel model)
+        public async Task<ExersiceViewModel> CreateAsync(ExersiceCreateModel model)
         {
             try
             {
                 Exersice exersice = new Exersice();
-                exersice.Id = model.Id;
                 exersice.Description = model.Description;
                 exersice.Title = model.Title;
                 exersice.Category = model.Category;
@@ -90,7 +83,7 @@ namespace HardTrain.BLL.Managers
 
         }
 
-        public async Task<bool> ExersiceExists(Guid id)
+        public async Task<bool> IsExists(Guid id)
         {
             return await _dataContext.Exersices.AnyAsync(p => p.Id == id);
         }
@@ -129,54 +122,36 @@ namespace HardTrain.BLL.Managers
             }
         }
 
-        //    //private async Task<bool> HasUniqueFields(JobTitleUpdateModel model)
-        //    //{
-        //    //    return !await _dataContext.JobTitles.AnyAsync(x => x.Name == model.Name && x.Id != model.Id);
-        //    //}
-
-
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            
+
             var exersice = new Exersice { Id = id };
 
-            try
-            {
-                _dataContext.Entry(exersice).State = EntityState.Deleted;
-                await _dataContext.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"An error occurred while deleting a job title.");
-                return false;
-            }
+            _dataContext.Entry(exersice).State = EntityState.Deleted;
+            await _dataContext.SaveChangesAsync();
+            return true;
         }
 
         public async Task<bool> DeleteAsync(Guid[] ids)
         {
-
-            if (ids is null || !ids.Any())
+            using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+            try
             {
-                return false;
-            }
-            
-            foreach (var id in ids)
-            {
-                var exersice = new Exersice { Id = id };
-                try
+                foreach (var id in ids)
                 {
+                    var exersice = new Exersice { Id = id };
+
                     _dataContext.Entry(exersice).State = EntityState.Deleted;
                     await _dataContext.SaveChangesAsync();
-                    return true;
                 }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, $"An error occurred while deleting a job title.");
-                    return false;
-                }
-                //return false;
+
+                transaction.Complete();
+            }
+            catch (Exception)
+            {
+                transaction.Dispose();
+                throw new InvalidOperationException();
             }
             return true;
         }

@@ -1,17 +1,13 @@
 ﻿using AutoMapper;
 using HardTrain.BLL.Contracts;
-using HardTrain.BLL.Models;
+using HardTrain.BLL.Models.ExersiceModels;
+using HardTrain.BLL.Models.TrainingModels;
 using HardTrain.DAL;
-using HardTrain.DAL.Entities.ExersiceEntities;
-using HardTrain.DAL.Enums;
+using HardTrain.DAL.Entities.TrainingScope;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Transactions;
 
 namespace HardTrain.BLL.Managers
 {
@@ -27,9 +23,9 @@ namespace HardTrain.BLL.Managers
             _dataContext = context;
             _logger = logger;
         }
-        public async Task<bool> TrainingExists(Guid id)
+        public async Task<bool> IsExists(Guid id)
         {
-            return await _dataContext.TrainingTemplates.AnyAsync(c => c.Id == id);
+            return await _dataContext.Trainings.AnyAsync(c => c.Id == id);
         }
 
         public async Task<TrainingViewModel> CreateTrainingAsync(TrainingCreateModel model)
@@ -37,14 +33,12 @@ namespace HardTrain.BLL.Managers
             try
             {
                 Training training = new Training();
-                training.Id = model.Id;
                 training.Description = model.Description;
                 training.Title = model.Title;
-                training.Category = model.Category;
 
                 //var exersice = model.Adapt<Exersice>();
 
-                _dataContext.TrainingTemplates.Add(training);
+                _dataContext.Trainings.Add(training);
                 await _dataContext.SaveChangesAsync();
                 return training.Adapt<TrainingViewModel>();//need to be replaced
             }
@@ -58,14 +52,13 @@ namespace HardTrain.BLL.Managers
         {
             try
             {
-                var training = model.Adapt<Exersice>();
-                //var exersice2 = new Exersice
-                //{
-                //    Title = model.Title,
-                //    Id = model.Id,
-                //    Category = model.Category,
-                //    Description = model.Description,
-                //};
+                var training = model.Adapt<Training>();
+                var exersice2 = new Exersice
+                {
+                    Title = model.Title,
+                    Id = model.Id,
+                    Description = model.Description,
+                };
 
                 _dataContext.Entry(training).State = EntityState.Modified;
 
@@ -92,7 +85,7 @@ namespace HardTrain.BLL.Managers
                 await _dataContext.SaveChangesAsync();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while deleting a training template");
                 return false;
@@ -101,61 +94,98 @@ namespace HardTrain.BLL.Managers
 
         public async Task<bool> DeleteAsync(Guid[] ids)
         {
-            if (ids == null || !ids.Any())
+            using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+            try
             {
-                _logger.LogError("No ids been found");
-                return false;
-            }
-            foreach (var id in ids)
-            {
-               
-                var training = new Training { Id = id };
-                try
+                foreach (var id in ids)
                 {
-                    _dataContext.Entry(training).State = EntityState.Deleted;
+                    var exersice = new Exersice { Id = id };
+
+                    _dataContext.Entry(exersice).State = EntityState.Deleted;
                     await _dataContext.SaveChangesAsync();
-                    return true;
                 }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "An error occurred while deleting a training template");
-                    return false;
-                }
+
+                transaction.Complete();
+            }
+            catch (Exception)
+            {
+                transaction.Dispose();
+                throw new InvalidOperationException();
             }
             return true;
         }
 
         public async Task<IEnumerable<TrainingViewModel>> GetAllAsync()
         {
-            return await _dataContext.TrainingTemplates.Select(x => new TrainingViewModel
-            {
-                Id = x.Id,
-                Title = x.Title,
-                Category = x.Category,
-                Description = x.Description,
-            }).ToListAsync();
+            return await _dataContext.Trainings
+                .Include(c => c.TrainingExersices)
+                .ThenInclude(ca => ca.Exersice)
+                //.Where(x => x.Category ==)
+                .Select(x => new TrainingViewModel
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Description = x.Description,
+                    Exersices = x.TrainingExersices.Select(x => new ExersiceViewModel
+                    {
+                        Id = x.Id,
+                        Title = x.Exersice.Title,
+                        Description = x.Exersice.Description,
+                        Category = x.Exersice.Category,
+                    }).ToList()
+                }).ToListAsync();
         }
 
         public async Task<TrainingViewModel> GetByIdAsync(Guid id)
         {
-                return await _dataContext.TrainingTemplates.Select(x => new TrainingViewModel
+            return await _dataContext.Trainings
+            .Include(c => c.TrainingExersices)
+            .ThenInclude(ca => ca.Exersice)
+            //.Where(x => x.Category ==)
+            .Select(x => new TrainingViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Description = x.Description,
+                Exersices = x.TrainingExersices.Select(x => new ExersiceViewModel
                 {
                     Id = x.Id,
-                    Title = x.Title,
-                    Category = x.Category,
-                    Description = x.Description,
-                }).FirstOrDefaultAsync();
+                    Title = x.Exersice.Title,
+                    Description = x.Exersice.Description,
+                    Category = x.Exersice.Category,
+                }).ToList()
+            }).FirstOrDefaultAsync();
         }
 
-        public async Task<TrainingViewModel> GetByTitleAsync(string name)
+        //public async Task<TrainingViewModel> GetByTitleAsync(string name)
+        //{
+        //    return await _dataContext.Trainings.ProjectToType<TrainingViewModel>().FirstOrDefaultAsync(x => x.Title == name);
+        //}
+
+        //public async Task<TrainingViewModel> GetByCategoryAsync(Category category)
+        //{
+        //    return await _dataContext.Trainings.ProjectToType<TrainingViewModel>().FirstOrDefaultAsync(x => x.Category == category);
+        //}
+
+        public async Task<bool> AddExersiceAsync(Guid trainingId, Guid exersiceId)
         {
-            return await _dataContext.TrainingTemplates.ProjectToType<TrainingViewModel>().FirstOrDefaultAsync(x => x.Title == name);
+            await _dataContext.TrainingExersices.AddAsync(new TrainingExersice
+            {
+                TrainingId = trainingId,
+                ExersiceId = exersiceId
+            });
+            await _dataContext.SaveChangesAsync();
+            return true;
         }
 
-        public async Task<TrainingViewModel> GetByCategoryAsync(Category category)
+        public async Task<bool> RemoveExersiceAsync(Guid trainingId, Guid exersiceId)
         {
-            return await _dataContext.TrainingTemplates.ProjectToType<TrainingViewModel>().FirstOrDefaultAsync(x => x.Category == category);
+            var trainingExersice = await _dataContext.TrainingExersices.FirstOrDefaultAsync(x => x.TrainingId == trainingId && x.ExersiceId == exersiceId);
+            if (trainingExersice == null)
+                return false;
+            _dataContext.TrainingExersices.Remove(trainingExersice);
+            await _dataContext.SaveChangesAsync();
+            return true;
         }
-
     }
 }

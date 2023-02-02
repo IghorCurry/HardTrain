@@ -1,11 +1,6 @@
-﻿using HardTrain.BLL.Models;
-using HardTrain.DAL.Entities.ExersiceEntities;
+﻿using HardTrain.BLL.Models.TrainingModels;
+using HardTrain.DAL.Entities.TrainingScope;
 using Mapster;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HardTrain.BLL.Helper
 {
@@ -13,7 +8,7 @@ namespace HardTrain.BLL.Helper
     {
         public static void ConfigureMapping()
         {
-            //TypeAdapterConfig<Exersice, ExersiceViewModel>.NewConfig()
+            //TypeAdapterConfig<Training, TrainingViewModel>.NewConfig()
             //                .Map(dest => dest.Technologies, src => src.Technologies.Select(x => x.Technology));
         }
     }

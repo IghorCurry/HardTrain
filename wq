@@ -1,0 +1,41 @@
+[33mcommit e02e63a01c866ac0ec2ed8a2f23c10aec7af20fd[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;32mbranch[m[33m)[m
+Author: Igor <testbyig@gmail.com>
+Date:   Wed Jan 25 19:37:05 2023 +0200
+
+    Training Manager, Controller handling
+
+[33mcommit be8d83f950be44f1fa1799bc8059f4f9a6667f44[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Igor <testbyig@gmail.com>
+Date:   Wed Jan 25 14:11:36 2023 +0200
+
+    Api add id in ModelCreateExersice for post add map
+
+[33mcommit 9cd056c42636aeedc2dc825e30b9390d8e948111[m
+Author: Igor <testbyig@gmail.com>
+Date:   Sat Jan 21 23:57:40 2023 +0200
+
+    Fix
+
+[33mcommit 1922a180df917c087c9e70a44bd67e41847dc0c7[m
+Author: Igor <testbyig@gmail.com>
+Date:   Sat Jan 21 23:40:10 2023 +0200
+
+    Merge
+
+[33mcommit 2d5091652adea76a47d300079cfe639e61a66a89[m
+Author: Igor <testbyig@gmail.com>
+Date:   Sat Jan 21 23:36:32 2023 +0200
+
+    Merge
+
+[33mcommit 8aa5f2f7b446974cbac1ff3766df7f9e062c2eb1[m
+Author: Igor <testbyig@gmail.com>
+Date:   Fri Jan 20 23:06:14 2023 +0200
+
+    Update IExersiceManager ExersiceManager ExersiceController
+
+[33mcommit 4d401e72a798d99ff6f8aedf9f94dc479f5496a6[m
+Author: Igor <testbyig@gmail.com>
+Date:   Fri Jan 13 22:42:21 2023 +0200
+
+    HardTrain init

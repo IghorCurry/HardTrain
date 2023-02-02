@@ -22,13 +22,22 @@ namespace HardTrain.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("HardTrain.DAL.Entities.ExersiceEntities.Exersice", b =>
+            modelBuilder.Entity("HardTrain.DAL.Entities.TrainingScope.Exersice", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DefaultReps")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DefaultTime")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DefaultWeight")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -44,7 +53,7 @@ namespace HardTrain.DAL.Migrations
                     b.ToTable("Exersices");
                 });
 
-            modelBuilder.Entity("HardTrain.DAL.Entities.ExersiceEntities.Training", b =>
+            modelBuilder.Entity("HardTrain.DAL.Entities.TrainingScope.Training", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,10 +69,10 @@ namespace HardTrain.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TrainingTemplates");
+                    b.ToTable("Trainings");
                 });
 
-            modelBuilder.Entity("HardTrain.DAL.Entities.ExersiceEntities.TrainingExersice", b =>
+            modelBuilder.Entity("HardTrain.DAL.Entities.TrainingScope.TrainingExersice", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -72,7 +81,25 @@ namespace HardTrain.DAL.Migrations
                     b.Property<Guid>("ExersiceId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ExersiceKey")
+                    b.Property<Guid>("TrainingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExersiceId");
+
+                    b.HasIndex("TrainingId");
+
+                    b.ToTable("TrainingExersices");
+                });
+
+            modelBuilder.Entity("HardTrain.DAL.Entities.UserResultScope.ExersiceResult", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ExersiceId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Reps")
@@ -81,10 +108,7 @@ namespace HardTrain.DAL.Migrations
                     b.Property<int>("Time")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("TrainingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TrainingKey")
+                    b.Property<Guid>("TrainingResultId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Weight")
@@ -92,30 +116,134 @@ namespace HardTrain.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExersiceKey");
+                    b.HasIndex("ExersiceId");
 
-                    b.HasIndex("TrainingKey");
+                    b.HasIndex("TrainingResultId");
 
-                    b.ToTable("ExersiceTemplates");
+                    b.ToTable("ExersiceResults");
                 });
 
-            modelBuilder.Entity("HardTrain.DAL.Entities.ExersiceEntities.TrainingExersice", b =>
+            modelBuilder.Entity("HardTrain.DAL.Entities.UserResultScope.TrainingResult", b =>
                 {
-                    b.HasOne("HardTrain.DAL.Entities.ExersiceEntities.Exersice", "Exersice")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ExecutionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TrainingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TrainingId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TrainingResults");
+                });
+
+            modelBuilder.Entity("HardTrain.DAL.Entities.UserResultScope.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("HardTrain.DAL.Entities.TrainingScope.TrainingExersice", b =>
+                {
+                    b.HasOne("HardTrain.DAL.Entities.TrainingScope.Exersice", "Exersice")
                         .WithMany()
-                        .HasForeignKey("ExersiceKey")
+                        .HasForeignKey("ExersiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HardTrain.DAL.Entities.ExersiceEntities.Training", "Training")
-                        .WithMany()
-                        .HasForeignKey("TrainingKey")
+                    b.HasOne("HardTrain.DAL.Entities.TrainingScope.Training", "Training")
+                        .WithMany("TrainingExersices")
+                        .HasForeignKey("TrainingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Exersice");
 
                     b.Navigation("Training");
+                });
+
+            modelBuilder.Entity("HardTrain.DAL.Entities.UserResultScope.ExersiceResult", b =>
+                {
+                    b.HasOne("HardTrain.DAL.Entities.TrainingScope.Exersice", "Exersice")
+                        .WithMany()
+                        .HasForeignKey("ExersiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HardTrain.DAL.Entities.UserResultScope.TrainingResult", "TrainingResult")
+                        .WithMany("ExersiceResults")
+                        .HasForeignKey("TrainingResultId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exersice");
+
+                    b.Navigation("TrainingResult");
+                });
+
+            modelBuilder.Entity("HardTrain.DAL.Entities.UserResultScope.TrainingResult", b =>
+                {
+                    b.HasOne("HardTrain.DAL.Entities.TrainingScope.Training", "Training")
+                        .WithMany()
+                        .HasForeignKey("TrainingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HardTrain.DAL.Entities.UserResultScope.User", "User")
+                        .WithMany("TrainingResults")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Training");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("HardTrain.DAL.Entities.TrainingScope.Training", b =>
+                {
+                    b.Navigation("TrainingExersices");
+                });
+
+            modelBuilder.Entity("HardTrain.DAL.Entities.UserResultScope.TrainingResult", b =>
+                {
+                    b.Navigation("ExersiceResults");
+                });
+
+            modelBuilder.Entity("HardTrain.DAL.Entities.UserResultScope.User", b =>
+                {
+                    b.Navigation("TrainingResults");
                 });
 #pragma warning restore 612, 618
         }

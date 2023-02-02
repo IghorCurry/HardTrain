@@ -2,13 +2,14 @@
 using System.Security.Claims;
 using HardTrain.BLL.Contracts;
 using HardTrain.BLL.Managers;
-using HardTrain.DAL.Entities.ExersiceEntities;
 using HardTrain.BLL.Models;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using System.Net;
 using HardTrain.DAL.Enums;
+using HardTrain.DAL.Entities.TrainingScope;
+using HardTrain.BLL.Models.ExersiceModels;
 
 namespace HardTrain.WebApi.Controllers;
 
@@ -45,7 +46,7 @@ public class ExersiceController : ControllerBase
     [ProducesResponseType(400)]
     public async Task<IActionResult> Get(Guid id)
     {
-        if (!await _exersiceManager.ExersiceExists(id))
+        if (!await _exersiceManager.IsExists(id))
             return NotFound();
 
         var exersice = _mapper.Map<ExersiceViewModel>(await _exersiceManager.GetByIdAsync(id));
@@ -76,7 +77,7 @@ public class ExersiceController : ControllerBase
 
         var exersiceMap = _mapper.Map<Exersice>(exersice);
 
-        return Ok(await _exersiceManager.CreateExersiceAsync(exersice));
+        return Ok(await _exersiceManager.CreateAsync(exersice));
     }
 
     [HttpPut("update")]
@@ -101,24 +102,21 @@ public class ExersiceController : ControllerBase
     [ProducesResponseType(404)]
     public async Task<IActionResult> Delete(Guid id)
     {
-        if (!await _exersiceManager.ExersiceExists(id))
-        {
+        if (!await _exersiceManager.IsExists(id))
             return NotFound();
-        }
-        else
-        {
-            var exersiceToDelete = _exersiceManager.GetByIdAsync(id);
-            return Ok(await _exersiceManager.DeleteAsync(id));
-        }
 
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+        return Ok(await _exersiceManager.DeleteAsync(id));
     }
 
-    [HttpDelete("{ids}/delete-by-ids")]
+    [HttpDelete("bulk")]
     public async Task<IActionResult> Delete(Guid[] ids)
     {
+        if (ids.Any())
+            return BadRequest();
+
         return Ok(await _exersiceManager.DeleteAsync(ids));
     }
+
+
 
 }

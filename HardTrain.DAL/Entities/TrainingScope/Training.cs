@@ -1,7 +1,6 @@
 ﻿using HardTrain.DAL.Enums;
-using System.ComponentModel.DataAnnotations;
 
-namespace HardTrain.DAL.Entities.ExersiceEntities
+namespace HardTrain.DAL.Entities.TrainingScope
 {
     public class Training
     {
@@ -9,8 +8,8 @@ namespace HardTrain.DAL.Entities.ExersiceEntities
 
         public string Title { get; set; }
 
-        public Category Category { get; set; }
-
         public string Description { get; set; }
+
+        public ICollection<TrainingExersice> TrainingExersices { get; set; } = new List<TrainingExersice>();
     }
 }
