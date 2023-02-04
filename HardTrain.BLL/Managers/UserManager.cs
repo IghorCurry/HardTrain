@@ -1,17 +1,10 @@
 ﻿using HardTrain.BLL.Contracts;
-using HardTrain.BLL.Models.ExersiceModels;
 using HardTrain.BLL.Models.UserModels;
 using HardTrain.DAL;
-using HardTrain.DAL.Entities.TrainingScope;
 using HardTrain.DAL.Entities.UserResultScope;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Transactions;
 
 namespace HardTrain.BLL.Managers
@@ -38,11 +31,12 @@ namespace HardTrain.BLL.Managers
 
                 _dataContext.Users.Add(user);
                 await _dataContext.SaveChangesAsync();
+                _logger.LogInformation("User created");
                 return user.Adapt<UserViewModel>();//need to be replaced
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"An error occurred while creating a job title.");
+                _logger.LogError(ex, $"An error occurred while creating a user.");
                 return null;
             }
         }
@@ -54,6 +48,7 @@ namespace HardTrain.BLL.Managers
 
             _dataContext.Entry(user).State = EntityState.Deleted;
             await _dataContext.SaveChangesAsync();
+            _logger.LogInformation("User deleted");
             return true;
         }
 
@@ -71,11 +66,13 @@ namespace HardTrain.BLL.Managers
                 }
 
                 transaction.Complete();
+                _logger.LogInformation("Users deleted");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 transaction.Dispose();
                 throw new InvalidOperationException();
+                _logger.LogError(ex, $"An error occurred while deleting users.");
             }
             return true;
         }
@@ -107,7 +104,7 @@ namespace HardTrain.BLL.Managers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"An error occurred while getting job title.");
+                _logger.LogError(ex, $"An error occurred while getting user .");
                 return null;
             }
         }
@@ -127,8 +124,8 @@ namespace HardTrain.BLL.Managers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Email = model.Email,
-                    TrainingResults = model.TrainingResults,
-                    
+                    /*TrainingResults = model.TrainingResults*/
+
                 };
 
                 _dataContext.Entry(user).State = EntityState.Modified;
@@ -136,12 +133,13 @@ namespace HardTrain.BLL.Managers
                 //_dataContext.Update(exersice2);
 
                 await _dataContext.SaveChangesAsync();
+                _logger.LogInformation("User updated");
 
                 return user.Adapt<UserViewModel>();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"An error occurred while updating job title.");
+                _logger.LogError(ex, $"An error occurred while updating user.");
                 return null;
             }
         }

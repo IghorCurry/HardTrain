@@ -1,12 +1,6 @@
-﻿using AutoMapper;
-using HardTrain.BLL.Contracts;
-using HardTrain.BLL.Managers;
-using HardTrain.BLL.Models.ExersiceModels;
-using HardTrain.BLL.Models.TrainingModels;
+﻿using HardTrain.BLL.Contracts;
 using HardTrain.BLL.Models.UserModels;
-using HardTrain.DAL.Entities.TrainingScope;
 using HardTrain.DAL.Entities.UserResultScope;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HardTrain.WebApi.Controllers
@@ -16,18 +10,17 @@ namespace HardTrain.WebApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserManager _userManager;
-        private readonly IMapper _mapper;
-        public UserController(IUserManager userManager, IMapper mapper)
+      
+        public UserController(IUserManager userManager)
         {
             _userManager = userManager;
-            _mapper = mapper;
         }
 
         [HttpGet("get-all")]
         public async Task<IActionResult> Get()
         {
 
-            var user = _mapper.Map<List<UserViewModel>>(await _userManager.GetAllAsync());
+            //var user = _mapper.Map<List<UserViewModel>>(await _userManager.GetAllAsync());
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -52,19 +45,19 @@ namespace HardTrain.WebApi.Controllers
 
             return Ok(await _userManager.GetByIdAsync(id));
         }
-        
+
         [HttpPost("create")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Create(UserCreateModel user)
         {
             if (user == null)
-                return BadRequest();          
+                return BadRequest();
 
 
             return Ok(await _userManager.CreateUserAsync(user));
         }
-        
+
         [HttpPut]
         [ProducesResponseType(400)]
         [ProducesResponseType(200)]
@@ -76,7 +69,7 @@ namespace HardTrain.WebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var trainingMap = _mapper.Map<User>(user);
+            //var trainingMap = _mapper.Map<User>(user);
 
             return Ok(await _userManager.UpdateAsync(user));
         }

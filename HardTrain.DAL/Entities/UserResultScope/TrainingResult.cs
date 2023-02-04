@@ -1,6 +1,4 @@
 ﻿using HardTrain.DAL.Entities.TrainingScope;
-using Microsoft.Identity.Client;
-using System.Diagnostics;
 
 namespace HardTrain.DAL.Entities.UserResultScope
 {

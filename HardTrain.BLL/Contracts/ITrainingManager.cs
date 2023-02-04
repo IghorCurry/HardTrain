@@ -1,5 +1,4 @@
 ﻿using HardTrain.BLL.Models.TrainingModels;
-using HardTrain.BLL.Models.TrainingResultModels;
 
 namespace HardTrain.BLL.Contracts;
 
@@ -7,7 +6,7 @@ public interface ITrainingManager
 {
     Task<IEnumerable<TrainingViewModel>> GetAllAsync();
     Task<TrainingViewModel> GetByIdAsync(Guid id);
-    
+
     Task<TrainingViewModel> CreateTrainingAsync(TrainingCreateModel model);
     Task<bool> IsExists(Guid id);
     Task<TrainingViewModel> UpdateAsync(TrainingUpdateModel model);

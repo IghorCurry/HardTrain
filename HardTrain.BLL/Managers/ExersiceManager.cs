@@ -32,12 +32,13 @@ namespace HardTrain.BLL.Managers
                 var exersice = model.Adapt<Exersice>();
 
                 _dataContext.Exersices.Add(exersice);
+                _logger.LogInformation("Exersice created");
                 await _dataContext.SaveChangesAsync();
                 return exersice.Adapt<ExersiceViewModel>();//need to be replaced
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"An error occurred while creating a job title.");
+                _logger.LogError(ex, $"An error occurred while creating a exersice.");
                 return null;
             }
         }
@@ -61,7 +62,7 @@ namespace HardTrain.BLL.Managers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"An error occurred while getting job title.");
+                _logger.LogError(ex, $"An error occurred while getting exersice.");
                 return null;
             }
         }
@@ -113,11 +114,13 @@ namespace HardTrain.BLL.Managers
 
                 await _dataContext.SaveChangesAsync();
 
+                _logger.LogInformation("Exersice updated");
+
                 return exersice.Adapt<ExersiceViewModel>();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"An error occurred while updating job title.");
+                _logger.LogError(ex, $"An error occurred while updating exersice.");
                 return null;
             }
         }
@@ -130,6 +133,7 @@ namespace HardTrain.BLL.Managers
 
             _dataContext.Entry(exersice).State = EntityState.Deleted;
             await _dataContext.SaveChangesAsync();
+            _logger.LogInformation("Exersice deleted");
             return true;
         }
 
@@ -144,14 +148,16 @@ namespace HardTrain.BLL.Managers
 
                     _dataContext.Entry(exersice).State = EntityState.Deleted;
                     await _dataContext.SaveChangesAsync();
+                    _logger.LogInformation("Exersices deleted");
                 }
 
                 transaction.Complete();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 transaction.Dispose();
                 throw new InvalidOperationException();
+                _logger.LogError(ex, "An error occured while exersice bulk deleting");
             }
             return true;
         }

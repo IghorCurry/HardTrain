@@ -1,5 +1,6 @@
-﻿using HardTrain.BLL.Models.TrainingModels;
-using HardTrain.DAL.Entities.TrainingScope;
+﻿using HardTrain.BLL.Models.TrainingResultModels;
+using HardTrain.BLL.Models.UserModels;
+using HardTrain.DAL.Entities.UserResultScope;
 using Mapster;
 
 namespace HardTrain.BLL.Helper
@@ -8,8 +9,11 @@ namespace HardTrain.BLL.Helper
     {
         public static void ConfigureMapping()
         {
-            //TypeAdapterConfig<Training, TrainingViewModel>.NewConfig()
-            //                .Map(dest => dest.Technologies, src => src.Technologies.Select(x => x.Technology));
+            TypeAdapterConfig<TrainingResult, TrainingResultViewModel>.NewConfig()
+                            .Map(dest => dest.ExersiceResults, src => src.ExersiceResults.Select(x => x.Exersice));
+
+            TypeAdapterConfig<User, UserViewModel>.NewConfig()
+                            .Map(dest => dest.TrainingResults, src => src.TrainingResults.Select(x => x.Training));
         }
     }
 }

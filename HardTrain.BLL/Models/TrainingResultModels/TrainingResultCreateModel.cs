@@ -1,5 +1,4 @@
 ﻿using HardTrain.BLL.Models.ExersiceResultModels;
-using HardTrain.DAL.Entities.UserResultScope;
 
 namespace HardTrain.BLL.Models.TrainingResultModels
 {

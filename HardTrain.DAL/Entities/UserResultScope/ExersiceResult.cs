@@ -1,6 +1,4 @@
 ﻿using HardTrain.DAL.Entities.TrainingScope;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HardTrain.DAL.Entities.UserResultScope
 {

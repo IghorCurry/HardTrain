@@ -14,6 +14,7 @@
         "outputPath": "C:\\Users\\igory\\source\\repos\\HardTrain\\HardTrain.BLL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
+          "C:\\Users\\igory\\source\\repos\\HardTrain\\NuGet.Config",
           "C:\\Users\\igory\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -22,7 +23,9 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://gitlab.com/api/v4/groups/58040508/-/packages/nuget/index.json": {},
+          "https://gitlab.com/api/v4/groups/61338283/-/packages/nuget/index.json": {}
         },
         "frameworks": {
           "net6.0": {
@@ -44,14 +47,6 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "AutoMapper": {
-              "target": "Package",
-              "version": "[12.0.1, )"
-            },
-            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[12.0.0, )"
-            },
             "Mapster": {
               "target": "Package",
               "version": "[7.3.0, )"
@@ -111,6 +106,7 @@
         "outputPath": "C:\\Users\\igory\\source\\repos\\HardTrain\\HardTrain.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
+          "C:\\Users\\igory\\source\\repos\\HardTrain\\NuGet.Config",
           "C:\\Users\\igory\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -119,7 +115,9 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://gitlab.com/api/v4/groups/58040508/-/packages/nuget/index.json": {},
+          "https://gitlab.com/api/v4/groups/61338283/-/packages/nuget/index.json": {}
         },
         "frameworks": {
           "net6.0": {
@@ -137,14 +135,6 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "AutoMapper": {
-              "target": "Package",
-              "version": "[12.0.1, )"
-            },
-            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[12.0.0, )"
-            },
             "Mapster": {
               "target": "Package",
               "version": "[7.3.0, )"

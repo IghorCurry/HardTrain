@@ -1,6 +1,4 @@
-﻿using HardTrain.DAL.Enums;
-
-namespace HardTrain.DAL.Entities.TrainingScope
+﻿namespace HardTrain.DAL.Entities.TrainingScope
 {
     public class Training
     {

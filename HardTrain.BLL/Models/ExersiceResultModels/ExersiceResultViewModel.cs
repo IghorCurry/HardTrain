@@ -1,7 +1,4 @@
-﻿using HardTrain.DAL.Entities.TrainingScope;
-using HardTrain.DAL.Entities.UserResultScope;
-
-namespace HardTrain.BLL.Models.ExersiceResultModels
+﻿namespace HardTrain.BLL.Models.ExersiceResultModels
 {
     public class ExersiceResultViewModel
     {

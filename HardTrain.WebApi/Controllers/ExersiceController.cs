@@ -1,15 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
-using HardTrain.BLL.Contracts;
-using HardTrain.BLL.Managers;
-using HardTrain.BLL.Models;
-using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using System.Net;
-using HardTrain.DAL.Enums;
-using HardTrain.DAL.Entities.TrainingScope;
+﻿using HardTrain.BLL.Contracts;
 using HardTrain.BLL.Models.ExersiceModels;
+using HardTrain.DAL.Entities.TrainingScope;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HardTrain.WebApi.Controllers;
 
@@ -18,20 +10,16 @@ namespace HardTrain.WebApi.Controllers;
 public class ExersiceController : ControllerBase
 {
     private readonly IExersiceManager _exersiceManager;
-    private readonly IMapper _mapper;
 
-    public ExersiceController(IExersiceManager exersiceManager, IMapper mapper)
+    public ExersiceController(IExersiceManager exersiceManager)
     {
         _exersiceManager = exersiceManager;
-        _mapper = mapper;
 
     }
 
     [HttpGet("get-all")]
     public async Task<IActionResult> Get()
     {
-
-        var V = _mapper.Map<List<ExersiceViewModel>>(await _exersiceManager.GetAllAsync());
 
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -48,8 +36,6 @@ public class ExersiceController : ControllerBase
     {
         if (!await _exersiceManager.IsExists(id))
             return NotFound();
-
-        var exersice = _mapper.Map<ExersiceViewModel>(await _exersiceManager.GetByIdAsync(id));
 
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -91,7 +77,7 @@ public class ExersiceController : ControllerBase
         {
             return BadRequest(ModelState);
         }
-        var exersiceMap = _mapper.Map<Exersice>(exersice);
+        //var exersiceMap = _mapper.Map<Exersice>(exersice);
 
         return Ok(await _exersiceManager.UpdateAsync(exersice));
     }

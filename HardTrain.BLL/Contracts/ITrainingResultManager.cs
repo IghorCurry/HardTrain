@@ -1,10 +1,4 @@
-﻿using HardTrain.BLL.Models.ExersiceResultModels;
-using HardTrain.BLL.Models.TrainingResultModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HardTrain.BLL.Models.TrainingResultModels;
 
 namespace HardTrain.BLL.Contracts
 {

@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using HardTrain.BLL.Contracts;
-using HardTrain.BLL.Helper;
+﻿using HardTrain.BLL.Contracts;
 using HardTrain.BLL.Managers;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,10 +6,10 @@ namespace HardTrain.BLL.Extension;
 
 public static class ProgramExtension
 {
-    public static void AddAutoMapper(this IServiceCollection services)
-    {
-        services.AddScoped<Profile, MappingProfiles>();
-    }
+    //public static void AddAutoMapper(this IServiceCollection services)
+    //{
+    //    services.AddScoped<Profile, MappingProfiles>();
+    //}
 
     public static void AddBllManagers(this IServiceCollection services)
     {

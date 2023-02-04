@@ -1,9 +1,6 @@
-﻿using AutoMapper;
-using HardTrain.BLL.Contracts;
+﻿using HardTrain.BLL.Contracts;
 using HardTrain.BLL.Models.TrainingResultModels;
-using HardTrain.BLL.Models.UserModels;
 using HardTrain.DAL.Entities.UserResultScope;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HardTrain.WebApi.Controllers
@@ -100,4 +97,4 @@ namespace HardTrain.WebApi.Controllers
 
     }
 }
-    
+

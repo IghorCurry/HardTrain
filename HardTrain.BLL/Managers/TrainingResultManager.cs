@@ -1,17 +1,11 @@
 ﻿using HardTrain.BLL.Contracts;
 using HardTrain.BLL.Models.TrainingResultModels;
-using HardTrain.BLL.Models.UserModels;
-using HardTrain.DAL.Entities.UserResultScope;
 using HardTrain.DAL;
+using HardTrain.DAL.Entities.UserResultScope;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Transactions;
-using Mapster;
 
 namespace HardTrain.BLL.Managers
 {
@@ -37,12 +31,13 @@ namespace HardTrain.BLL.Managers
                 var result = model.Adapt<TrainingResult>();
 
                 _dataContext.TrainingResults.Add(result);
+                _logger.LogInformation("Creating training result");
                 await _dataContext.SaveChangesAsync();
                 return result.Adapt<TrainingResultViewModel>();//need to be replaced
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"An error occurred while creating a job title.");
+                _logger.LogError(ex, $"An error occurred while creating a training result.");
                 return null;
             }
         }
@@ -52,6 +47,7 @@ namespace HardTrain.BLL.Managers
             var result = new TrainingResult { Id = id };
 
             _dataContext.Entry(result).State = EntityState.Deleted;
+            _logger.LogInformation("Deleted training result");
             await _dataContext.SaveChangesAsync();
             return true;
         }
@@ -68,12 +64,13 @@ namespace HardTrain.BLL.Managers
                     _dataContext.Entry(result).State = EntityState.Deleted;
                     await _dataContext.SaveChangesAsync();
                 }
-
+                _logger.LogInformation("Created training result");
                 transaction.Complete();
             }
             catch (Exception)
             {
                 transaction.Dispose();
+                _logger.LogError("An error occured while bulk deleting");
                 throw new InvalidOperationException();
             }
             return true;
@@ -81,15 +78,23 @@ namespace HardTrain.BLL.Managers
 
         public async Task<IEnumerable<TrainingResultViewModel>> GetAllAsync()
         {
-            return await _dataContext.TrainingResults.Select(x => new TrainingResultViewModel
+            try
             {
-                Id = x.Id,
-                ExecutionDate = x.ExecutionDate,
-                TrainingId = x.TrainingId,
-                UserId = x.UserId,
-                Note = x.Note,
-                ExersiceResults = x.ExersiceResults
-            }).ToListAsync();
+                return await _dataContext.TrainingResults.Select(x => new TrainingResultViewModel
+                {
+                    Id = x.Id,
+                    ExecutionDate = x.ExecutionDate,
+                    TrainingId = x.TrainingId,
+                    UserId = x.UserId,
+                    Note = x.Note,
+                    ExersiceResults = x.ExersiceResults
+                }).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while getting all training results.");
+                return null;
+            }
         }
 
         public async Task<TrainingResultViewModel> GetByIdAsync(Guid id)
@@ -109,7 +114,7 @@ namespace HardTrain.BLL.Managers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"An error occurred while getting job title.");
+                _logger.LogError(ex, $"An error occurred while getting training result.");
                 return null;
             }
         }
@@ -131,6 +136,7 @@ namespace HardTrain.BLL.Managers
                 //};
 
                 _dataContext.Entry(result).State = EntityState.Modified;
+                _logger.LogInformation("Updating training result");
 
                 //_dataContext.Update(exersice2);
 
@@ -140,7 +146,7 @@ namespace HardTrain.BLL.Managers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"An error occurred while updating job title.");
+                _logger.LogError(ex, $"An error occurred while updating training result.");
                 return null;
             }
         }

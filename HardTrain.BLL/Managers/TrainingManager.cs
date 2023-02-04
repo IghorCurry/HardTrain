@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using HardTrain.BLL.Contracts;
+﻿using HardTrain.BLL.Contracts;
 using HardTrain.BLL.Models.ExersiceModels;
 using HardTrain.BLL.Models.TrainingModels;
 using HardTrain.DAL;
@@ -16,7 +15,7 @@ namespace HardTrain.BLL.Managers
 
         private readonly DataContext _dataContext;
         private readonly ILogger _logger;
-        private readonly IMapper _mapper;
+        //private readonly IMapper _mapper;
 
         public TrainingManager(DataContext context, ILogger<TrainingManager> logger)
         {
@@ -40,6 +39,7 @@ namespace HardTrain.BLL.Managers
 
                 _dataContext.Trainings.Add(training);
                 await _dataContext.SaveChangesAsync();
+                _logger.LogInformation("Training created");
                 return training.Adapt<TrainingViewModel>();//need to be replaced
             }
             catch (Exception ex)
@@ -65,6 +65,7 @@ namespace HardTrain.BLL.Managers
                 //_dataContext.Update(exersice2);
 
                 await _dataContext.SaveChangesAsync();
+                _logger.LogInformation("Training updated");
 
                 return training.Adapt<TrainingViewModel>();
             }
@@ -83,6 +84,7 @@ namespace HardTrain.BLL.Managers
             {
                 _dataContext.Entry(training).State = EntityState.Deleted;
                 await _dataContext.SaveChangesAsync();
+                _logger.LogInformation("Training deleted");
                 return true;
             }
             catch (Exception ex)
@@ -106,11 +108,13 @@ namespace HardTrain.BLL.Managers
                 }
 
                 transaction.Complete();
+                _logger.LogInformation("Trainings deleted");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 transaction.Dispose();
                 throw new InvalidOperationException();
+                _logger.LogError(ex, "An error occurred while deleting a training templates");
             }
             return true;
         }
@@ -169,14 +173,25 @@ namespace HardTrain.BLL.Managers
 
         public async Task<bool> AddExersiceAsync(Guid trainingId, Guid exersiceId)
         {
-            await _dataContext.TrainingExersices.AddAsync(new TrainingExersice
+            try
             {
-                TrainingId = trainingId,
-                ExersiceId = exersiceId
-            });
-            await _dataContext.SaveChangesAsync();
-            return true;
+                await _dataContext.TrainingExersices.AddAsync(new TrainingExersice
+                {
+                    TrainingId = trainingId,
+                    ExersiceId = exersiceId
+                });
+                await _dataContext.SaveChangesAsync();
+                _logger.LogInformation("Exersice added to training template");
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while adding an exersice to training template");
+                return false;
+            }
         }
+
 
         public async Task<bool> RemoveExersiceAsync(Guid trainingId, Guid exersiceId)
         {

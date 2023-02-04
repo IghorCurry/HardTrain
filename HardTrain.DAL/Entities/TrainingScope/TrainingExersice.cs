@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace HardTrain.DAL.Entities.TrainingScope
+﻿namespace HardTrain.DAL.Entities.TrainingScope
 {
     public class TrainingExersice
     {

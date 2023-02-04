@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using HardTrain.BLL.Contracts;
-using HardTrain.BLL.Managers;
+﻿using HardTrain.BLL.Contracts;
 using HardTrain.BLL.Models.TrainingModels;
-using HardTrain.BLL.Models.TrainingResultModels;
 using HardTrain.DAL.Entities.TrainingScope;
-using HardTrain.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HardTrain.WebApi.Controllers
@@ -14,19 +10,17 @@ namespace HardTrain.WebApi.Controllers
     public class TrainingController : Controller
     {
         private readonly ITrainingManager _trainingManager;
-        private readonly IMapper _mapper;
 
-        public TrainingController(ITrainingManager trainingManager, IMapper mapper)
+        public TrainingController(ITrainingManager trainingManager)
         {
             _trainingManager = trainingManager;
-            _mapper = mapper;
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> Get()
         {
 
-            var V = _mapper.Map<List<TrainingViewModel>>(await _trainingManager.GetAllAsync());
+            //var V = _mapper.Map<List<TrainingViewModel>>(await _trainingManager.GetAllAsync());
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -43,7 +37,7 @@ namespace HardTrain.WebApi.Controllers
             if (!await _trainingManager.IsExists(id))
                 return NotFound();
 
-            var training = _mapper.Map<TrainingViewModel>(await _trainingManager.GetByIdAsync(id));
+            //var training = _mapper.Map<TrainingViewModel>(await _trainingManager.GetByIdAsync(id));
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -57,7 +51,7 @@ namespace HardTrain.WebApi.Controllers
         //{
         //    return Ok(await _trainingManager.GetByTitleAsync(title));
         //}
-        
+
         //[HttpGet("{category}")]
         //[ProducesResponseType(200, Type = typeof(Training))]
         //[ProducesResponseType(400)]
@@ -77,7 +71,7 @@ namespace HardTrain.WebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var trainingMap = _mapper.Map<Training>(training);
+            //var trainingMap = _mapper.Map<Training>(training);
 
             return Ok(await _trainingManager.CreateTrainingAsync(training));
         }
@@ -93,7 +87,7 @@ namespace HardTrain.WebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var trainingMap = _mapper.Map<Training>(training);
+            //var trainingMap = _mapper.Map<Training>(training);
 
             return Ok(await _trainingManager.UpdateAsync(training));
         }
@@ -127,9 +121,9 @@ namespace HardTrain.WebApi.Controllers
         [HttpPost("add-exersice")]
         public async Task<IActionResult> AddExersice(Guid trainingId, Guid exersiceId)
         {
-           return Ok(await _trainingManager.AddExersiceAsync(trainingId, exersiceId));
+            return Ok(await _trainingManager.AddExersiceAsync(trainingId, exersiceId));
         }
-        
+
         [HttpDelete("remove-exersice")]
         public async Task<IActionResult> RemoveExersice(Guid trainingId, Guid exersiceId)
         {
