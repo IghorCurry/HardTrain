@@ -1,6 +1,8 @@
 ﻿using HardTrain.BLL.Contracts;
 using HardTrain.BLL.Managers;
+using HardTrain.DAL;
 using Microsoft.Extensions.DependencyInjection;
+using SharedModules.Application.Common.Abstractions;
 
 namespace HardTrain.BLL.Extension;
 
@@ -17,18 +19,10 @@ public static class ProgramExtension
         services.AddScoped<ITrainingManager, TrainingManager>();
         services.AddScoped<IUserManager, UserManager>();
         services.AddScoped<ITrainingResultManager, TrainingResultManager>();
+        services.AddScoped<IDataContext, DataContext>();
     }
 
-    //public static void AddAuthorization(this IServiceCollection services)
-    //{
-    //    services.AddAuthorization(options =>
-    //    {
-    //        options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
-    //            .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-    //            .RequireAuthenticatedUser()
-    //            .Build();
-    //    });
-    //}
+
 
 
     //public static void ConnectSwagger(this IServiceCollection services)

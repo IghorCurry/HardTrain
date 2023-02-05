@@ -1,14 +1,9 @@
-﻿using HardTrain.BLL.Models.ExersiceModels;
-using HardTrain.BLL.Models.TrainingModels;
-using HardTrain.BLL.Models.TrainingResultModels;
-using HardTrain.DAL.Entities.TrainingScope;
-
-namespace HardTrain.BLL.Helper;
+﻿namespace HardTrain.BLL.Helper;
 
 public class MappingProfiles  /*Profile*/
 {
     //public MappingProfiles()
-//    {
+    //    {
 
     //        CreateMap<Exersice, ExersiceViewModel>();
 

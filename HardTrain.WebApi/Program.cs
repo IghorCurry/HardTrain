@@ -1,6 +1,8 @@
 using HardTrain.BLL.Extension;
 using HardTrain.DAL;
+using HardTrain.DAL.Entities.UserResultScope;
 using Microsoft.EntityFrameworkCore;
+using SharedModules.Infrastructure.Identity.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,18 @@ builder.Services.AddDbContext<DataContext>(opts =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddIdentityConfiguration<DataContext, User, Role>()
+            .AddIdentityCoreModelsValidators()
+            .AddIdentityCoreServices<User>()
+            .AddJwtTokenConfiguration(builder.Configuration)
+            .MapEmailToUserName()
+            .AddPolicies(options =>
+            {
+                options.AddPolicy("RequireAdmin", policy =>
+                    policy.RequireRole("Admin"));
+                options.AddPolicy("RequireStudent", policy =>
+                    policy.RequireRole("Student"));
+            });
 
 var app = builder.Build();
 

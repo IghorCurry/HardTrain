@@ -1,6 +1,4 @@
-﻿using HardTrain.DAL.Entities.UserResultScope;
-
-namespace HardTrain.BLL.Models.UserModels
+﻿namespace HardTrain.BLL.Models.UserModels
 {
     public class UserCreateModel
     {

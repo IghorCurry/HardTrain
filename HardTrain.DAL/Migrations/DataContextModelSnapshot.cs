@@ -51,6 +51,78 @@ namespace HardTrain.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Exersices");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("318cb157-1a66-43d2-9ebe-9f180f4c873b"),
+                            Category = 0,
+                            DefaultReps = 0,
+                            DefaultTime = 0,
+                            DefaultWeight = 0,
+                            Description = "Train arms",
+                            Title = "Test Biceps exersice"
+                        },
+                        new
+                        {
+                            Id = new Guid("13e3bc9b-088c-44c4-858f-5956d311b804"),
+                            Category = 0,
+                            DefaultReps = 0,
+                            DefaultTime = 0,
+                            DefaultWeight = 0,
+                            Description = "Train arms",
+                            Title = "Test Triceps exersice"
+                        },
+                        new
+                        {
+                            Id = new Guid("39f25e4e-3ef4-4237-b943-d6a54b084e62"),
+                            Category = 1,
+                            DefaultReps = 0,
+                            DefaultTime = 0,
+                            DefaultWeight = 0,
+                            Description = "Train arms",
+                            Title = "Test push ups exersice"
+                        },
+                        new
+                        {
+                            Id = new Guid("cdac369b-ef11-468e-9c93-df5bf13e1799"),
+                            Category = 1,
+                            DefaultReps = 0,
+                            DefaultTime = 0,
+                            DefaultWeight = 0,
+                            Description = "Train arms",
+                            Title = "Test fly chest exersice"
+                        },
+                        new
+                        {
+                            Id = new Guid("fb51ed56-dc65-425c-ad2a-1808f9712a79"),
+                            Category = 2,
+                            DefaultReps = 0,
+                            DefaultTime = 0,
+                            DefaultWeight = 0,
+                            Description = "Train arms",
+                            Title = "Test squats exersice"
+                        },
+                        new
+                        {
+                            Id = new Guid("73ba60f0-7dfc-40ff-9405-bbaa718313ae"),
+                            Category = 3,
+                            DefaultReps = 0,
+                            DefaultTime = 0,
+                            DefaultWeight = 0,
+                            Description = "Train arms",
+                            Title = "Test pull ups exersice"
+                        },
+                        new
+                        {
+                            Id = new Guid("1a358bd3-a2cc-4706-a06a-05e0f06ee478"),
+                            Category = 3,
+                            DefaultReps = 0,
+                            DefaultTime = 0,
+                            DefaultWeight = 0,
+                            Description = "Train arms",
+                            Title = "Test dead lift exersice"
+                        });
                 });
 
             modelBuilder.Entity("HardTrain.DAL.Entities.TrainingScope.Training", b =>
@@ -70,6 +142,32 @@ namespace HardTrain.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Trainings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("81765a78-ed6b-4c9c-aa4e-9d0652951dd8"),
+                            Description = "Train arms",
+                            Title = "Test Arm training"
+                        },
+                        new
+                        {
+                            Id = new Guid("191a9b4e-527e-419c-97a7-a4a841f91c2d"),
+                            Description = "Train chest",
+                            Title = "Test Chest training"
+                        },
+                        new
+                        {
+                            Id = new Guid("a7a151e8-7816-4dad-9ee6-a89141b6776c"),
+                            Description = "Train legs",
+                            Title = "Test Legs training"
+                        },
+                        new
+                        {
+                            Id = new Guid("60a7be00-3489-42f2-8e7a-9732ace21e1c"),
+                            Description = "Train back",
+                            Title = "Test Back training"
+                        });
                 });
 
             modelBuilder.Entity("HardTrain.DAL.Entities.TrainingScope.TrainingExersice", b =>
@@ -91,6 +189,50 @@ namespace HardTrain.DAL.Migrations
                     b.HasIndex("TrainingId");
 
                     b.ToTable("TrainingExersices");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f5a5965a-ca29-4de3-9a1a-1128b29f0f0c"),
+                            ExersiceId = new Guid("318cb157-1a66-43d2-9ebe-9f180f4c873b"),
+                            TrainingId = new Guid("81765a78-ed6b-4c9c-aa4e-9d0652951dd8")
+                        },
+                        new
+                        {
+                            Id = new Guid("f7cab932-38f4-4606-9ab8-7636bd8f18de"),
+                            ExersiceId = new Guid("13e3bc9b-088c-44c4-858f-5956d311b804"),
+                            TrainingId = new Guid("81765a78-ed6b-4c9c-aa4e-9d0652951dd8")
+                        },
+                        new
+                        {
+                            Id = new Guid("1d50e351-0aa2-4c2f-805f-242cad939202"),
+                            ExersiceId = new Guid("39f25e4e-3ef4-4237-b943-d6a54b084e62"),
+                            TrainingId = new Guid("191a9b4e-527e-419c-97a7-a4a841f91c2d")
+                        },
+                        new
+                        {
+                            Id = new Guid("f0e2a2f2-a6ce-49d9-841f-966ea2171577"),
+                            ExersiceId = new Guid("cdac369b-ef11-468e-9c93-df5bf13e1799"),
+                            TrainingId = new Guid("191a9b4e-527e-419c-97a7-a4a841f91c2d")
+                        },
+                        new
+                        {
+                            Id = new Guid("acef4f0c-59fd-4bd9-b8f7-95499777aeff"),
+                            ExersiceId = new Guid("fb51ed56-dc65-425c-ad2a-1808f9712a79"),
+                            TrainingId = new Guid("a7a151e8-7816-4dad-9ee6-a89141b6776c")
+                        },
+                        new
+                        {
+                            Id = new Guid("07e161db-5504-4b7c-acca-b3b0f4488e34"),
+                            ExersiceId = new Guid("73ba60f0-7dfc-40ff-9405-bbaa718313ae"),
+                            TrainingId = new Guid("60a7be00-3489-42f2-8e7a-9732ace21e1c")
+                        },
+                        new
+                        {
+                            Id = new Guid("9f413444-2e8b-4511-9200-02bd7e9c6d4a"),
+                            ExersiceId = new Guid("1a358bd3-a2cc-4706-a06a-05e0f06ee478"),
+                            TrainingId = new Guid("60a7be00-3489-42f2-8e7a-9732ace21e1c")
+                        });
                 });
 
             modelBuilder.Entity("HardTrain.DAL.Entities.UserResultScope.ExersiceResult", b =>
@@ -121,6 +263,34 @@ namespace HardTrain.DAL.Migrations
                     b.HasIndex("TrainingResultId");
 
                     b.ToTable("ExersiceResults");
+                });
+
+            modelBuilder.Entity("HardTrain.DAL.Entities.UserResultScope.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
                 });
 
             modelBuilder.Entity("HardTrain.DAL.Entities.UserResultScope.TrainingResult", b =>
@@ -157,9 +327,19 @@ namespace HardTrain.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -169,9 +349,181 @@ namespace HardTrain.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a0a28231-c733-4acf-aa5b-46a26e1a11ed"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e308b5ff-5b41-4bc1-a1de-a5e52589d6b6",
+                            Email = "gg@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Oleksandr",
+                            LastName = "Bendujik",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false
+                        },
+                        new
+                        {
+                            Id = new Guid("1bdd1192-19fa-47ad-8ee4-705e02f226b7"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d6b05e7e-7d8e-44e8-9e40-a463cde5c0d5",
+                            Email = "test@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Harry",
+                            LastName = "Evans",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("HardTrain.DAL.Entities.TrainingScope.TrainingExersice", b =>
@@ -229,6 +581,57 @@ namespace HardTrain.DAL.Migrations
                     b.Navigation("Training");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+                {
+                    b.HasOne("HardTrain.DAL.Entities.UserResultScope.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.HasOne("HardTrain.DAL.Entities.UserResultScope.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.HasOne("HardTrain.DAL.Entities.UserResultScope.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.HasOne("HardTrain.DAL.Entities.UserResultScope.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HardTrain.DAL.Entities.UserResultScope.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.HasOne("HardTrain.DAL.Entities.UserResultScope.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("HardTrain.DAL.Entities.TrainingScope.Training", b =>

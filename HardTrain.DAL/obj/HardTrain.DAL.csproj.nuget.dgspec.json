@@ -47,6 +47,14 @@
               "target": "Package",
               "version": "[7.3.0, )"
             },
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.13, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.2, )"
@@ -66,6 +74,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.2, )"
+            },
+            "SharedModules.Infrastructure.Identity": {
+              "target": "Package",
+              "version": "[6.0.12, )"
             }
           },
           "imports": [

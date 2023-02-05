@@ -81,6 +81,7 @@ namespace HardTrain.BLL.Managers
         {
             return await _dataContext.Users.Select(x => new UserViewModel
             {
+                Id = x.Id,
                 FirstName = x.FirstName,
                 LastName = x.LastName,
                 Email = x.Email,
@@ -94,6 +95,7 @@ namespace HardTrain.BLL.Managers
             {
                 return await _dataContext.Users.Select(x => new UserViewModel
                 {
+                    Id = x.Id,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
                     Email = x.Email,

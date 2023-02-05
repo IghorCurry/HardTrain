@@ -7,7 +7,7 @@ namespace HardTrain.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TrainingController : Controller
+    public class TrainingController : ControllerBase
     {
         private readonly ITrainingManager _trainingManager;
 

@@ -10,7 +10,7 @@ namespace HardTrain.WebApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserManager _userManager;
-      
+
         public UserController(IUserManager userManager)
         {
             _userManager = userManager;

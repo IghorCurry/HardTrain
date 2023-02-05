@@ -14,6 +14,7 @@ namespace HardTrain.DAL.Configuration
             builder.HasOne<User>(s => s.User)
             .WithMany(t => t.TrainingResults)
             .HasForeignKey(f => f.UserId);
+
         }
 
     }
