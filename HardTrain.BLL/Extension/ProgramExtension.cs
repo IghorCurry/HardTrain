@@ -1,6 +1,8 @@
 ﻿using HardTrain.BLL.Contracts;
 using HardTrain.BLL.Managers;
 using HardTrain.DAL;
+using HardTrain.DAL.Setting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedModules.Application.Common.Abstractions;
 
@@ -21,6 +23,10 @@ public static class ProgramExtension
         services.AddScoped<ITrainingResultManager, TrainingResultManager>();
         services.AddScoped<IDataContext, DataContext>();
     }
+
+    public static IServiceCollection ConfigureSettingsModels(this IServiceCollection services, IConfiguration configuration)
+        => services.Configure<DefaultAdminSettings>(configuration.GetSection(nameof(DefaultAdminSettings)));
+
 
 
 

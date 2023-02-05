@@ -9,7 +9,6 @@ namespace HardTrain.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[ApiExplorerSettings(GroupName = "auth")]
 public class AuthController : ControllerBase
 {
     private readonly IAuthManager _authManager;

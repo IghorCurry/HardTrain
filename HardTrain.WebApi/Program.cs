@@ -2,7 +2,9 @@ using HardTrain.BLL.Extension;
 using HardTrain.DAL;
 using HardTrain.DAL.Entities.UserResultScope;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using SharedModules.Infrastructure.Identity.Extensions;
+using SharedPackages.CommonTools.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,12 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddBllManagers();
-//builder.Services.ConnectSwagger();
+builder.Services.ConfigureSettingsModels(builder.Configuration);
 builder.Services.AddDbContext<DataContext>(opts =>
                 opts.UseSqlServer(builder.Configuration["ConnectionStrings:HardTrainDatabaseConnection"]));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddIdentityConfiguration<DataContext, User, Role>()
             .AddIdentityCoreModelsValidators()
             .AddIdentityCoreServices<User>()
@@ -25,9 +26,46 @@ builder.Services.AddIdentityConfiguration<DataContext, User, Role>()
             {
                 options.AddPolicy("RequireAdmin", policy =>
                     policy.RequireRole("Admin"));
-                options.AddPolicy("RequireStudent", policy =>
-                    policy.RequireRole("Student"));
+                options.AddPolicy("RequireClient", policy =>
+                    policy.RequireRole("Client"));
             });
+
+#region Add Swagger
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1.0", new OpenApiInfo { Title = "HardTrain.WebAPI", Version = "v1.0" });
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n
+                      Enter 'Bearer' [space] and then your token in the text input below.
+                      \r\n\r\nExample: 'Bearer 12345abcdef'",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+      {
+        {
+          new OpenApiSecurityScheme
+          {
+            Reference = new OpenApiReference
+              {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+              },
+              Scheme = "oauth2",
+              Name = "Bearer",
+              In = ParameterLocation.Header,
+            },
+            new List<string>()
+          }
+        });
+});
+
+#endregion
+
 
 var app = builder.Build();
 
@@ -35,22 +73,33 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "CustomerService.Core.WebApp");
+        c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+    });
 
-app.UseAuthentication();
+}
 
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
-app.UseCookiePolicy();
+//app.UseCookiePolicy();
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
-app.MapControllers();
+if (app.Environment.IsDevelopment()) 
+{
+    app.MapControllers().RequireAuthorization();
+}
+else
+{
+    app.MapControllers().RequireAuthorization();
+}
 
 app.Run();
-

@@ -1,7 +1,9 @@
 ﻿using HardTrain.BLL.Contracts;
+using HardTrain.BLL.Models.TrainingModels;
 using HardTrain.BLL.Models.TrainingResultModels;
 using HardTrain.DAL.Entities.UserResultScope;
 using Microsoft.AspNetCore.Mvc;
+using SharedPackages.ResponseResultCore.Models;
 
 namespace HardTrain.WebApi.Controllers
 {
@@ -18,6 +20,9 @@ namespace HardTrain.WebApi.Controllers
         }
 
         [HttpGet("get-all")]
+        [ProducesResponseType(typeof(HttpResponseResult<IEnumerable<TrainingResultViewModel>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get()
         {
 
@@ -32,6 +37,9 @@ namespace HardTrain.WebApi.Controllers
 
         [HttpGet("{id}/get-by-id")]
         //[Authorize]
+        [ProducesResponseType(typeof(HttpResponseResult<TrainingResultViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(200, Type = typeof(TrainingResult))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Get(Guid id)
@@ -48,8 +56,9 @@ namespace HardTrain.WebApi.Controllers
         }
 
         [HttpPost("create")]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(typeof(HttpResponseResult<TrainingResultViewModel>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create(TrainingResultCreateModel training)
         {
             if (training == null)
@@ -60,9 +69,10 @@ namespace HardTrain.WebApi.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(HttpResponseResult<TrainingResultViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Update(Guid id, TrainingResultUpdateModel training)
         {
 
@@ -75,9 +85,10 @@ namespace HardTrain.WebApi.Controllers
         }
 
         [HttpDelete("{id}/delete-by-id")]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(Guid id)
         {
             if (!await _trainingResultManager.IsExists(id))
@@ -87,6 +98,10 @@ namespace HardTrain.WebApi.Controllers
         }
 
         [HttpDelete("bulk")]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(Guid[] ids)
         {
             if (ids.Any())

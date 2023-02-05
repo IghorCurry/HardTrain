@@ -2,6 +2,7 @@
 using HardTrain.BLL.Models.TrainingModels;
 using HardTrain.DAL.Entities.TrainingScope;
 using Microsoft.AspNetCore.Mvc;
+using SharedPackages.ResponseResultCore.Models;
 
 namespace HardTrain.WebApi.Controllers
 {
@@ -17,6 +18,9 @@ namespace HardTrain.WebApi.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(HttpResponseResult<IEnumerable<TrainingViewModel>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get()
         {
 
@@ -30,8 +34,9 @@ namespace HardTrain.WebApi.Controllers
 
 
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(Training))]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(typeof(HttpResponseResult<TrainingViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(Guid id)
         {
             if (!await _trainingManager.IsExists(id))
@@ -61,8 +66,9 @@ namespace HardTrain.WebApi.Controllers
         //}
 
         [HttpPost]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(typeof(HttpResponseResult<TrainingViewModel>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create(TrainingCreateModel training)
         {
             if (training == null)
@@ -77,9 +83,10 @@ namespace HardTrain.WebApi.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(HttpResponseResult<TrainingViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Update(Guid id, TrainingUpdateModel training)
         {
 
@@ -93,9 +100,10 @@ namespace HardTrain.WebApi.Controllers
         }
 
         [HttpDelete]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(Guid id)
         {
             if (!await _trainingManager.IsExists(id))
@@ -113,18 +121,29 @@ namespace HardTrain.WebApi.Controllers
         }
 
         [HttpDelete("bulk")]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(Guid[] ids)
         {
             return Ok(await _trainingManager.DeleteAsync(ids));
         }
 
         [HttpPost("add-exersice")]
+        [ProducesResponseType(typeof(HttpResponseResult<TrainingViewModel>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddExersice(Guid trainingId, Guid exersiceId)
         {
             return Ok(await _trainingManager.AddExersiceAsync(trainingId, exersiceId));
         }
 
         [HttpDelete("remove-exersice")]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> RemoveExersice(Guid trainingId, Guid exersiceId)
         {
             return Ok(await _trainingManager.RemoveExersiceAsync(trainingId, exersiceId));

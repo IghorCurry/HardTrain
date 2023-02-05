@@ -31,8 +31,7 @@ namespace HardTrain.DAL.DataSeeds
         private static readonly Guid trainingexesice5Id = new Guid("acef4f0c-59fd-4bd9-b8f7-95499777aeff");
         private static readonly Guid trainingexesice6Id = new Guid("07e161db-5504-4b7c-acca-b3b0f4488e34");
         private static readonly Guid trainingexesice7Id = new Guid("9f413444-2e8b-4511-9200-02bd7e9c6d4a");
-        private static readonly Guid user1Id = new Guid("a0a28231-c733-4acf-aa5b-46a26e1a11ed");
-        private static readonly Guid user2Id = new Guid("1bdd1192-19fa-47ad-8ee4-705e02f226b7");
+
 
         private static readonly Guid exersice11Id = new Guid("b025bb01-2eb4-4d45-bb28-e3fc4c139d80");
         private static readonly Guid exersice12Id = new Guid("20121070-babe-4a78-b616-41fa12e52c62");
@@ -75,70 +74,79 @@ namespace HardTrain.DAL.DataSeeds
                         Title = "Test Back training",
                         Description = "Train back"
                     });
+            
+            
+            
+        }
+        private static void AddTestExersices(this ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Exersice>().HasData(
-                    new Exersice()
-                    {
-                        Id = exersice1Id,
-                        Title = "Test Biceps exersice",
-                        Description = "Train arms",
-                        Category = Enums.Category.Arm,
-                        DefaultReps = 0,
-                        DefaultWeight = 0
-                    },
-                    new Exersice()
-                    {
-                        Id = exersice2Id,
-                        Title = "Test Triceps exersice",
-                        Description = "Train arms",
-                        Category = Enums.Category.Arm,
-                        DefaultReps = 0,
-                        DefaultWeight = 0
-                    },
-                    new Exersice()
-                    {
-                        Id = exersice3Id,
-                        Title = "Test push ups exersice",
-                        Description = "Train arms",
-                        Category = Enums.Category.Chest,
-                        DefaultReps = 0,
-                        DefaultWeight = 0
-                    },
-                    new Exersice()
-                    {
-                        Id = exersice4Id,
-                        Title = "Test fly chest exersice",
-                        Description = "Train arms",
-                        Category = Enums.Category.Chest,
-                        DefaultReps = 0,
-                        DefaultWeight = 0
-                    },
-                    new Exersice()
-                    {
-                        Id = exersice5Id,
-                        Title = "Test squats exersice",
-                        Description = "Train arms",
-                        Category = Enums.Category.Legs,
-                        DefaultReps = 0,
-                        DefaultWeight = 0
-                    },
-                    new Exersice()
-                    {
-                        Id = exersice6Id,
-                        Title = "Test pull ups exersice",
-                        Description = "Train arms",
-                        Category = Enums.Category.Back,
-                        DefaultReps = 0,
-                        DefaultWeight = 0
-                    },
-                    new Exersice()
-                    {
-                        Id = exersice7Id,
-                        Title = "Test dead lift exersice",
-                        Description = "Train arms",
-                        Category = Enums.Category.Back,
-                        DefaultReps = 0,
-                        DefaultWeight = 0
-                    });
+                new Exersice()
+                {
+                    Id = exersice1Id,
+                    Title = "Test Biceps exersice",
+                    Description = "Train arms",
+                    Category = Enums.Category.Arm,
+                    DefaultReps = 0,
+                    DefaultWeight = 0
+                },
+                new Exersice()
+                {
+                    Id = exersice2Id,
+                    Title = "Test Triceps exersice",
+                    Description = "Train arms",
+                    Category = Enums.Category.Arm,
+                    DefaultReps = 0,
+                    DefaultWeight = 0
+                },
+                new Exersice()
+                {
+                    Id = exersice3Id,
+                    Title = "Test push ups exersice",
+                    Description = "Train arms",
+                    Category = Enums.Category.Chest,
+                    DefaultReps = 0,
+                    DefaultWeight = 0
+                },
+                new Exersice()
+                {
+                    Id = exersice4Id,
+                    Title = "Test fly chest exersice",
+                    Description = "Train arms",
+                    Category = Enums.Category.Chest,
+                    DefaultReps = 0,
+                    DefaultWeight = 0
+                },
+                new Exersice()
+                {
+                    Id = exersice5Id,
+                    Title = "Test squats exersice",
+                    Description = "Train arms",
+                    Category = Enums.Category.Legs,
+                    DefaultReps = 0,
+                    DefaultWeight = 0
+                },
+                new Exersice()
+                {
+                    Id = exersice6Id,
+                    Title = "Test pull ups exersice",
+                    Description = "Train arms",
+                    Category = Enums.Category.Back,
+                    DefaultReps = 0,
+                    DefaultWeight = 0
+                },
+                new Exersice()
+                {
+                    Id = exersice7Id,
+                    Title = "Test dead lift exersice",
+                    Description = "Train arms",
+                    Category = Enums.Category.Back,
+                    DefaultReps = 0,
+                    DefaultWeight = 0
+                });
+        }
+        private static void AddTestTrainingExersices(this ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<TrainingExersice>().HasData(
                     new TrainingExersice()
                     {
@@ -181,21 +189,6 @@ namespace HardTrain.DAL.DataSeeds
                         Id = trainingexesice7Id,
                         TrainingId = training4Id,
                         ExersiceId = exersice7Id
-                    });
-            modelBuilder.Entity<User>().HasData(
-                    new User()
-                    {
-                        Id = user1Id,
-                        FirstName = "Oleksandr",
-                        LastName = "Bendujik",
-                        Email = "gg@gmail.com"
-                    },
-                    new User()
-                    {
-                        Id = user2Id,
-                        FirstName = "Harry",
-                        LastName = "Evans",
-                        Email = "test@gmail.com"
                     });
         }
     }
