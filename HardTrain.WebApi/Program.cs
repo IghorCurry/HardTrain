@@ -1,10 +1,13 @@
 using HardTrain.BLL.Extension;
 using HardTrain.DAL;
 using HardTrain.DAL.Entities.UserResultScope;
+using HardTrain.WebApi.Middlewares;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using SharedModules.Infrastructure.Identity.Extensions;
-using SharedPackages.CommonTools.Swagger;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,14 +24,25 @@ builder.Services.AddIdentityConfiguration<DataContext, User, Role>()
             .AddIdentityCoreModelsValidators()
             .AddIdentityCoreServices<User>()
             .AddJwtTokenConfiguration(builder.Configuration)
-            .MapEmailToUserName()
-            .AddPolicies(options =>
-            {
-                options.AddPolicy("RequireAdmin", policy =>
-                    policy.RequireRole("Admin"));
-                options.AddPolicy("RequireClient", policy =>
-                    policy.RequireRole("Client"));
-            });
+            .MapEmailToUserName();
+            //.AddPolicies(options =>
+            //{
+            //    options.AddPolicy("RequireAdmin", policy =>
+            //        policy.RequireRole("Admin"));
+            //    options.AddPolicy("RequireClient", policy =>
+            //        policy.RequireRole("Client"));
+            //    //options.AddPolicy("RequireManager", policy =>
+            //    //    policy.RequireRole("Manager"));
+            //});
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireManager", policy =>
+    {
+        policy.RequireRole("Manager");
+        policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+        policy.RequireAuthenticatedUser();
+    });
+});
 
 #region Add Swagger
 
@@ -93,7 +107,9 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-if (app.Environment.IsDevelopment()) 
+app.UseMiddleware<UserIdentifierMiddleware>();
+
+if (app.Environment.IsDevelopment())
 {
     app.MapControllers().RequireAuthorization();
 }

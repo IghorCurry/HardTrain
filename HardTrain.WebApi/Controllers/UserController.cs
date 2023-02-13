@@ -1,14 +1,13 @@
-﻿using HardTrain.BLL.Contracts;
-using HardTrain.BLL.Models.UserModels;
+﻿using HardTrain.BLL.Models.UserModels;
+using HardTrain.DAL;
 using HardTrain.DAL.Entities.UserResultScope;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SharedModules.Application.Common.Abstractions;
 using SharedModules.Infrastructure.Identity.Abstractions;
-using SharedPackages.ResponseResultCore.Exceptions;
-using SharedPackages.ResponseResultCore.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace HardTrain.WebApi.Controllers
@@ -18,15 +17,20 @@ namespace HardTrain.WebApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IIdentityManager<User> _identityManager;
+        private readonly DataContext _dataContext;
         private readonly RoleManager<Role> _roleManager;
 
-        public UserController(IIdentityManager<User> userManager, RoleManager<Role> roleManager)
-            => (_identityManager, _roleManager) = (userManager, roleManager);
-
+        public UserController(IIdentityManager<User> userManager, RoleManager<Role> roleManager, DataContext dataContext)
+        {
+            _identityManager = userManager;
+            _roleManager = roleManager;
+            _dataContext = dataContext;
+        }
+           
         [HttpGet("get-all")]
-        [ProducesResponseType(typeof(HttpResponseResult<IEnumerable<UserViewModel>>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(IEnumerable<UserViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get()
         {
             var users = await _identityManager
@@ -38,9 +42,9 @@ namespace HardTrain.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(HttpResponseResult<UserViewModel>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(UserViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(Guid id)
         {
             var user = await _identityManager.GetUserAsync(id);
@@ -50,9 +54,9 @@ namespace HardTrain.WebApi.Controllers
 
         [Authorize]
         [HttpGet("who-am-i")]
-        [ProducesResponseType(typeof(HttpResponseResult<UserViewModel>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(UserViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetCurrentUser()
         {
             var user = await _identityManager.GetUserAsync(HttpContext.User);
@@ -61,23 +65,37 @@ namespace HardTrain.WebApi.Controllers
 
         }
 
+        [HttpPost("assign-role")]
+        [ProducesResponseType(typeof(UserViewModel), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AssingRole(Guid userId, string roleName)
+        {
+            var user = await _identityManager.GetUserAsync(userId);
+            await _identityManager.UserManager.AddToRoleAsync(user, roleName);
+            return Ok(true);
+        }
+
         [HttpPost]
-        [ProducesResponseType(typeof(HttpResponseResult<UserViewModel>), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(UserViewModel), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create(UserCreateModel model)
         {
             var user = model.Adapt<User>();
-            var result = await _identityManager.UserManager.CreateAsync(user);
+            user.SecurityStamp = Guid.NewGuid().ToString();
+            var result = await _identityManager.UserManager.CreateAsync(user, model.Password);
+            //_dataContext.SaveChanges();
             await _identityManager.UserManager.AddToRoleAsync(user, "Client");
             return Ok(user);
         }
-        
+
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(HttpResponseResult<UserViewModel>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(UserViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Update(Guid id, UserUpdateModel model)
         {
             if (id != model?.Id)
@@ -90,10 +108,10 @@ namespace HardTrain.WebApi.Controllers
 
         [Authorize]
         [HttpDelete("{id}")]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(Guid id)
         {
             return Ok(await _identityManager.DeleteAsync(id));
@@ -101,9 +119,9 @@ namespace HardTrain.WebApi.Controllers
 
         [HttpGet("is-unique-email")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(HttpResponseResult<object>), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(HttpResponseResult<object>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(object), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(object), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> IsUniqueEmail([EmailAddress] string email)
         {
             return Ok(await _identityManager.IsUniqueEmailAsync(email));

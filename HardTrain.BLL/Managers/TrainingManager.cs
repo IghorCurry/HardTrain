@@ -1,4 +1,4 @@
-﻿using HardTrain.BLL.Contracts;
+﻿using HardTrain.BLL.Abstractions;
 using HardTrain.BLL.Models.ExersiceModels;
 using HardTrain.BLL.Models.TrainingModels;
 using HardTrain.DAL;

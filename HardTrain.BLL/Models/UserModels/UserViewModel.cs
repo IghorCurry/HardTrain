@@ -1,4 +1,4 @@
-﻿using HardTrain.DAL.Entities.UserResultScope;
+﻿using HardTrain.BLL.Models.TrainingResultModels;
 
 namespace HardTrain.BLL.Models.UserModels
 {
@@ -8,7 +8,7 @@ namespace HardTrain.BLL.Models.UserModels
         public string FirstName { get; init; }
         public string LastName { get; init; }
         public string Email { get; init; }
-        public ICollection<TrainingResult> TrainingResults { get; init; } = new List<TrainingResult>();
+        public ICollection<TrainingResultViewModel> TrainingResults { get; init; } = new List<TrainingResultViewModel>();
         public IEnumerable<string> Roles { get; init; } = new List<string>();
 
     }

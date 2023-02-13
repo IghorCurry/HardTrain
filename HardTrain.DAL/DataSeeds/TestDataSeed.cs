@@ -1,10 +1,5 @@
 ﻿using HardTrain.DAL.Setting;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HardTrain.DAL.DataSeeds
 {
@@ -14,11 +9,10 @@ namespace HardTrain.DAL.DataSeeds
         {
             modelBuilder.AddTestTrainings();
             modelBuilder.AddTestUsers();
+            modelBuilder.AddUsers();
             modelBuilder.AddTestExersices();
             modelBuilder.AddTestTrainingExersices();
             modelBuilder.AddAdmin(defaultAdminSettings);
-            //modelBuilder.AddAdmin();
-
         }
     }
 }

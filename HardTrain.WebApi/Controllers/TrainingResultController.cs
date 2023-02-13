@@ -1,9 +1,7 @@
-﻿using HardTrain.BLL.Contracts;
-using HardTrain.BLL.Models.TrainingModels;
+﻿using HardTrain.BLL.Abstractions;
 using HardTrain.BLL.Models.TrainingResultModels;
 using HardTrain.DAL.Entities.UserResultScope;
 using Microsoft.AspNetCore.Mvc;
-using SharedPackages.ResponseResultCore.Models;
 
 namespace HardTrain.WebApi.Controllers
 {
@@ -20,26 +18,21 @@ namespace HardTrain.WebApi.Controllers
         }
 
         [HttpGet("get-all")]
-        [ProducesResponseType(typeof(HttpResponseResult<IEnumerable<TrainingResultViewModel>>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(IEnumerable<TrainingResultViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get()
         {
-
-            //var training = _mapper.Map<List<TrainingResultViewModel>>(await _trainingResultManager.GetAllAsync());
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(await _trainingResultManager.GetAllAsync());
+            return Ok(await _trainingResultManager.GetByCurrentUserAsync());
         }
 
 
         [HttpGet("{id}/get-by-id")]
         //[Authorize]
-        [ProducesResponseType(typeof(HttpResponseResult<TrainingResultViewModel>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(TrainingResultViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(200, Type = typeof(TrainingResult))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Get(Guid id)
@@ -56,9 +49,9 @@ namespace HardTrain.WebApi.Controllers
         }
 
         [HttpPost("create")]
-        [ProducesResponseType(typeof(HttpResponseResult<TrainingResultViewModel>), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(TrainingResultViewModel), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create(TrainingResultCreateModel training)
         {
             if (training == null)
@@ -69,10 +62,10 @@ namespace HardTrain.WebApi.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(typeof(HttpResponseResult<TrainingResultViewModel>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(TrainingResultViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Update(Guid id, TrainingResultUpdateModel training)
         {
 
@@ -85,10 +78,10 @@ namespace HardTrain.WebApi.Controllers
         }
 
         [HttpDelete("{id}/delete-by-id")]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(Guid id)
         {
             if (!await _trainingResultManager.IsExists(id))
@@ -98,10 +91,10 @@ namespace HardTrain.WebApi.Controllers
         }
 
         [HttpDelete("bulk")]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(Guid[] ids)
         {
             if (ids.Any())

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,10 +25,6 @@
 		</PackageReference>
 		<PackageReference Include="SharedModules.Infrastructure.Identity" Version="6.0.12" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Auth\" />
 	</ItemGroup>
     
 

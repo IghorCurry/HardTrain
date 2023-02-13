@@ -1,10 +1,7 @@
-﻿using HardTrain.BLL.Contracts;
+﻿using HardTrain.BLL.Abstractions;
 using HardTrain.BLL.Models.ExersiceModels;
-using HardTrain.BLL.Models.TrainingModels;
-using HardTrain.DAL.Entities.TrainingScope;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SharedPackages.ResponseResultCore.Models;
 
 namespace HardTrain.WebApi.Controllers;
 
@@ -17,15 +14,14 @@ public class ExersiceController : ControllerBase
     public ExersiceController(IExersiceManager exersiceManager)
     {
         _exersiceManager = exersiceManager;
-
     }
 
     [HttpGet("get-all")]
     [Authorize]
     //[Authorize(Roles = "Admin")]
-    [ProducesResponseType(typeof(HttpResponseResult<IEnumerable<ExersiceViewModel>>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(IEnumerable<ExersiceViewModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get()
     {
 
@@ -37,9 +33,9 @@ public class ExersiceController : ControllerBase
 
 
     [HttpGet("{id}/get-by-id")]
-    [ProducesResponseType(typeof(HttpResponseResult<ExersiceViewModel>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(ExersiceViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get(Guid id)
     {
         if (!await _exersiceManager.IsExists(id))
@@ -51,18 +47,18 @@ public class ExersiceController : ControllerBase
         return Ok(await _exersiceManager.GetByIdAsync(id));
     }
     [HttpGet("{title}/get-by-title")]
-    [ProducesResponseType(typeof(HttpResponseResult<ExersiceViewModel>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(ExersiceViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get(string title)
     {
         return Ok(await _exersiceManager.GetByTitleAsync(title));
     }
 
     [HttpPost("create")]
-    [ProducesResponseType(typeof(HttpResponseResult<ExersiceViewModel>), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(ExersiceViewModel), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Create(ExersiceCreateModel exersice)
     {
         if (exersice == null)
@@ -77,10 +73,10 @@ public class ExersiceController : ControllerBase
     }
 
     [HttpPut("update")]
-    [ProducesResponseType(typeof(HttpResponseResult<ExersiceViewModel>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(ExersiceViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Update(Guid id, ExersiceUpdateModel exersice)
     {
 
@@ -94,10 +90,10 @@ public class ExersiceController : ControllerBase
     }
 
     [HttpDelete("{id}/delete-by-id")]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Delete(Guid id)
     {
         if (!await _exersiceManager.IsExists(id))
@@ -107,10 +103,10 @@ public class ExersiceController : ControllerBase
     }
 
     [HttpDelete("bulk")]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(HttpResponseResult<bool>), StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Delete(Guid[] ids)
     {
         if (ids.Any())

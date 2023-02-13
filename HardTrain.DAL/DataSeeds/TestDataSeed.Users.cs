@@ -2,11 +2,6 @@
 using HardTrain.DAL.Setting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HardTrain.DAL.DataSeeds
 {
@@ -17,6 +12,7 @@ namespace HardTrain.DAL.DataSeeds
         #region Roles Settings
         private static readonly Guid admin_roleId = new Guid("b13c0935-3467-4fa9-ae84-267197263f25");
         private static readonly Guid client_roleId = new Guid("6f8450e1-82bf-4df0-8540-d8d85f6e409a");
+        private static readonly Guid manager_roleId = new Guid("b025bb01-2eb4-4d45-bb28-e3fc4c139d80");
         #endregion Roles Settings
 
         #region Users Settings
@@ -49,6 +45,13 @@ namespace HardTrain.DAL.DataSeeds
                     Name = "Client",
                     ConcurrencyStamp = "2",
                     NormalizedName = "Client".ToUpper(),
+                },
+                new Role()
+                {
+                    Id = manager_roleId,
+                    Name = "Manager",
+                    ConcurrencyStamp = "3",
+                    NormalizedName = "Manager".ToUpper(),
                 });
         }
 
@@ -85,12 +88,12 @@ namespace HardTrain.DAL.DataSeeds
             User user1 = new User()
             {
                 Id = user1Id,
-                UserName = "safd@gmail.com",
-                NormalizedUserName = "safd@gmail.com".ToUpper(),
+                UserName = "user1@gmail.com",
+                NormalizedUserName = "user1@gmail.com".ToUpper(),
                 FirstName = "Oleksandr",
                 LastName = "Bendujik",
-                Email = "safd@gmail.com",
-                NormalizedEmail = "safd@gmail.com".ToUpper(),
+                Email = "user1@gmail.com",
+                NormalizedEmail = "user1@gmail.com".ToUpper(),
                 SecurityStamp = user1_securityStamp,
             };
             user1.PasswordHash = _passwordHasher.HashPassword(user1, "asdASD123!");
@@ -98,12 +101,12 @@ namespace HardTrain.DAL.DataSeeds
             User user2 = new User()
             {
                 Id = user2Id,
-                UserName = "qwe@gmail.com",
-                NormalizedUserName = "qwe@gmail.com".ToUpper(),
+                UserName = "user2@gmail.com",
+                NormalizedUserName = "user2@gmail.com".ToUpper(),
                 FirstName = "Harry",
                 LastName = "Evans",
-                Email = "qwe@gmail.com",
-                NormalizedEmail = "qwe@gmail.com".ToUpper(),
+                Email = "user2@gmail.com",
+                NormalizedEmail = "user2@gmail.com".ToUpper(),
                 SecurityStamp = user2_securityStamp,
             };
             user2.PasswordHash = _passwordHasher.HashPassword(user2, "asdASD124!");
@@ -111,12 +114,12 @@ namespace HardTrain.DAL.DataSeeds
             User user3 = new User()
             {
                 Id = user3Id,
-                UserName = "asd@gmail.com",
-                NormalizedUserName = "asd@gmail.com".ToUpper(),
+                UserName = "user3@gmail.com",
+                NormalizedUserName = "user3@gmail.com".ToUpper(),
                 FirstName = "Olga",
                 LastName = "Strange",
-                Email = "asd@gmail.com",
-                NormalizedEmail = "asd@gmail.com".ToUpper(),
+                Email = "user3@gmail.com",
+                NormalizedEmail = "user3@gmail.com".ToUpper(),
                 SecurityStamp = user3_securityStamp,
             };
             user3.PasswordHash = _passwordHasher.HashPassword(user3, "asdASD125!");
@@ -124,12 +127,12 @@ namespace HardTrain.DAL.DataSeeds
             User user4 = new User()
             {
                 Id = user4Id,
-                UserName = "xcv@gmail.com",
-                NormalizedUserName = "zxc@gmail.com".ToUpper(),
+                UserName = "manager@gmail.com",
+                NormalizedUserName = "manager@gmail.com".ToUpper(),
                 FirstName = "Hloya",
                 LastName = "Abrams",
-                Email = "xcv@gmail.com",
-                NormalizedEmail = "xcv@gmail.com".ToUpper(),
+                Email = "manager@gmail.com",
+                NormalizedEmail = "manager@gmail.com".ToUpper(),
                 SecurityStamp = user4_securityStamp,
             };
             user4.PasswordHash = _passwordHasher.HashPassword(user4, "asdASD126!");
@@ -158,12 +161,11 @@ namespace HardTrain.DAL.DataSeeds
             },
             new IdentityUserRole<Guid>()
             {
-                RoleId = client_roleId,
+                RoleId = manager_roleId,
                 UserId = user4Id,
             });
 
             #endregion Role Assignment
         }
-
     }
 }

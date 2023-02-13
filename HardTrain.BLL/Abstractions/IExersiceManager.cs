@@ -1,6 +1,6 @@
 ﻿using HardTrain.BLL.Models.ExersiceModels;
 
-namespace HardTrain.BLL.Contracts;
+namespace HardTrain.BLL.Abstractions;
 
 public interface IExersiceManager
 {

@@ -1,10 +1,10 @@
 ﻿using HardTrain.BLL.Models.TrainingResultModels;
 
-namespace HardTrain.BLL.Contracts
+namespace HardTrain.BLL.Abstractions
 {
     public interface ITrainingResultManager
     {
-        Task<IEnumerable<TrainingResultViewModel>> GetAllAsync();
+        Task<IEnumerable<TrainingResultViewModel>> GetByCurrentUserAsync();
         Task<TrainingResultViewModel> GetByIdAsync(Guid id);
         Task<TrainingResultViewModel> CreateTrainingResultAsync(TrainingResultCreateModel model);
         Task<bool> IsExists(Guid id);

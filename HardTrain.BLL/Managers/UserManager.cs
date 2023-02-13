@@ -1,4 +1,4 @@
-﻿using HardTrain.BLL.Contracts;
+﻿using HardTrain.BLL.Abstractions;
 using HardTrain.BLL.Models.UserModels;
 using HardTrain.DAL;
 using HardTrain.DAL.Entities.UserResultScope;
@@ -79,28 +79,18 @@ namespace HardTrain.BLL.Managers
 
         public async Task<IEnumerable<UserViewModel>> GetAllAsync()
         {
-            return await _dataContext.Users.Select(x => new UserViewModel
-            {
-                Id = x.Id,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                Email = x.Email,
-                TrainingResults = x.TrainingResults,
-            }).ToListAsync();
+            return await _dataContext.Users
+                .ProjectToType<UserViewModel>()
+                .ToListAsync();
         }
 
-        public async Task<UserViewModel> GetByIdAsync(Guid id)
+        public async Task<UserViewModel?> GetByIdAsync(Guid id)
         {
             try
             {
-                return await _dataContext.Users.Select(x => new UserViewModel
-                {
-                    Id = x.Id,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                    Email = x.Email,
-                    TrainingResults = x.TrainingResults,
-                }).FirstOrDefaultAsync(x => x.Id == id);
+                return await _dataContext.Users
+                      .ProjectToType<UserViewModel>()
+                      .FirstOrDefaultAsync(x => x.Id == id);
 
                 //return model; 
             }

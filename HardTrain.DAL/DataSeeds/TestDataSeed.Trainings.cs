@@ -1,12 +1,5 @@
 ﻿using HardTrain.DAL.Entities.TrainingScope;
-using HardTrain.DAL.Entities.UserResultScope;
-using Mapster;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HardTrain.DAL.DataSeeds
 {
@@ -33,7 +26,6 @@ namespace HardTrain.DAL.DataSeeds
         private static readonly Guid trainingexesice7Id = new Guid("9f413444-2e8b-4511-9200-02bd7e9c6d4a");
 
 
-        private static readonly Guid exersice11Id = new Guid("b025bb01-2eb4-4d45-bb28-e3fc4c139d80");
         private static readonly Guid exersice12Id = new Guid("20121070-babe-4a78-b616-41fa12e52c62");
         private static readonly Guid exersice13Id = new Guid("1ef65a80-45e1-4efa-8070-96ea00898357");
         private static readonly Guid exersice14Id = new Guid("e9b9bf1f-b24f-4c96-90b5-413d21943f18");
@@ -74,9 +66,9 @@ namespace HardTrain.DAL.DataSeeds
                         Title = "Test Back training",
                         Description = "Train back"
                     });
-            
-            
-            
+
+
+
         }
         private static void AddTestExersices(this ModelBuilder modelBuilder)
         {

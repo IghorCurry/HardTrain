@@ -22,6 +22,64 @@ namespace HardTrain.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("HardTrain.DAL.Entities.PostScope.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("HardTrain.DAL.Entities.PostScope.Post", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Posts");
+                });
+
             modelBuilder.Entity("HardTrain.DAL.Entities.TrainingScope.Exersice", b =>
                 {
                     b.Property<Guid>("Id")
@@ -306,6 +364,13 @@ namespace HardTrain.DAL.Migrations
                             ConcurrencyStamp = "2",
                             Name = "Client",
                             NormalizedName = "CLIENT"
+                        },
+                        new
+                        {
+                            Id = new Guid("b025bb01-2eb4-4d45-bb28-e3fc4c139d80"),
+                            ConcurrencyStamp = "3",
+                            Name = "Manager",
+                            NormalizedName = "MANAGER"
                         });
                 });
 
@@ -413,9 +478,81 @@ namespace HardTrain.DAL.Migrations
                     b.HasData(
                         new
                         {
+                            Id = new Guid("a0a28231-c733-4acf-aa5b-46a26e1a11ed"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "16790557-aab8-46bf-b65a-db593cb81e12",
+                            Email = "user1@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Oleksandr",
+                            LastName = "Bendujik",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER1@GMAIL.COM",
+                            NormalizedUserName = "USER1@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI3x7bkDy4RREUcyiISv+rJlAm5TvpovSVQYN2G/3wbAxCiZuw8rEWiiU/eUB+KZvA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "654f6985-3739-4457-8c20-439d50c1f0ff",
+                            TwoFactorEnabled = false,
+                            UserName = "user1@gmail.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("1bdd1192-19fa-47ad-8ee4-705e02f226b7"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "12bc04c5-564a-432a-85e7-d739b526a393",
+                            Email = "user2@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Harry",
+                            LastName = "Evans",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER2@GMAIL.COM",
+                            NormalizedUserName = "USER2@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOgtukciGPv3nqCg0ttbAIyQLE5sKRvaDXVeIgLSkSz3hA1pGKQrnR6sg+P+gK1k1w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "bf9922e8-3c69-4dee-9961-65c70e29072c",
+                            TwoFactorEnabled = false,
+                            UserName = "user2@gmail.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("1ef65a80-45e1-4efa-8070-96ea00898357"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "afb936bd-b36f-4d8f-a2fe-9fce1aa4090a",
+                            Email = "user3@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Olga",
+                            LastName = "Strange",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER3@GMAIL.COM",
+                            NormalizedUserName = "USER3@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAELeTypKZzJGYKp4eqmMe7hoiNB4Vqm8dpQRCJpQVyRjfePmj8c6sPl6jzTGXnEhLkA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "edd31d71-3bcc-475c-8b38-b50b731baaaa",
+                            TwoFactorEnabled = false,
+                            UserName = "user3@gmail.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("e9b9bf1f-b24f-4c96-90b5-413d21943f18"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "956aaf0f-87da-42e5-9f77-22cff88af77c",
+                            Email = "manager@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Hloya",
+                            LastName = "Abrams",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MANAGER@GMAIL.COM",
+                            NormalizedUserName = "MANAGER@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEENrUm5e29EIsKF7Pi8N9OCIxtiNtk6XOwgsFBejP4My6/amoK8s620A0BH9D4arBw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "2e28282b-b3ee-4e6f-bd2a-76ab43a3638c",
+                            TwoFactorEnabled = false,
+                            UserName = "manager@gmail.com"
+                        },
+                        new
+                        {
                             Id = new Guid("6fa67588-40fb-4cc2-a574-deca54a5b811"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3250c765-0e6a-4bce-84e9-7b78b248e8b8",
+                            ConcurrencyStamp = "10a4b597-1764-4192-a862-2c085c351ebb",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -423,7 +560,7 @@ namespace HardTrain.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAELGd1vdY6Kllcait2q90d+guwdVuoTUhgmMmGtGJFfngrYsRqVfMXvW19vQFDcl5+Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKt/hqBFTYytkGMOcKnIxcCBNC8eFFU8Uv1DJt0DLEOL3ciwS8OZhfIbDVgEXe4GcA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "1cf5e64d-1c2f-466e-9978-636a70a10347",
                             TwoFactorEnabled = false,
@@ -517,6 +654,26 @@ namespace HardTrain.DAL.Migrations
                     b.HasData(
                         new
                         {
+                            UserId = new Guid("a0a28231-c733-4acf-aa5b-46a26e1a11ed"),
+                            RoleId = new Guid("6f8450e1-82bf-4df0-8540-d8d85f6e409a")
+                        },
+                        new
+                        {
+                            UserId = new Guid("1bdd1192-19fa-47ad-8ee4-705e02f226b7"),
+                            RoleId = new Guid("6f8450e1-82bf-4df0-8540-d8d85f6e409a")
+                        },
+                        new
+                        {
+                            UserId = new Guid("1ef65a80-45e1-4efa-8070-96ea00898357"),
+                            RoleId = new Guid("6f8450e1-82bf-4df0-8540-d8d85f6e409a")
+                        },
+                        new
+                        {
+                            UserId = new Guid("e9b9bf1f-b24f-4c96-90b5-413d21943f18"),
+                            RoleId = new Guid("b025bb01-2eb4-4d45-bb28-e3fc4c139d80")
+                        },
+                        new
+                        {
                             UserId = new Guid("6fa67588-40fb-4cc2-a574-deca54a5b811"),
                             RoleId = new Guid("b13c0935-3467-4fa9-ae84-267197263f25")
                         });
@@ -564,6 +721,25 @@ namespace HardTrain.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RefreshTokens");
+                });
+
+            modelBuilder.Entity("HardTrain.DAL.Entities.PostScope.Comment", b =>
+                {
+                    b.HasOne("HardTrain.DAL.Entities.PostScope.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HardTrain.DAL.Entities.UserResultScope.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HardTrain.DAL.Entities.TrainingScope.TrainingExersice", b =>

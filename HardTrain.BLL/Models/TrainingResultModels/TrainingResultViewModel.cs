@@ -1,4 +1,4 @@
-﻿using HardTrain.DAL.Entities.UserResultScope;
+﻿using HardTrain.BLL.Models.ExersiceResultModels;
 
 namespace HardTrain.BLL.Models.TrainingResultModels;
 
@@ -13,5 +13,5 @@ public record TrainingResultViewModel : TrainingResultUpdateModel
     public Guid UserId { get; init; }
     public string Note { get; init; }//updatemodel1
 
-    public ICollection<ExersiceResult> ExersiceResults { get; init; }
+    public ICollection<ExersiceResultViewModel> ExersiceResults { get; init; } = new List<ExersiceResultViewModel>();
 }

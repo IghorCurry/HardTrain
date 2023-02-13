@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HardTrain.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230205151520_AddTestDataSeeds")]
-    partial class AddTestDataSeeds
+    [Migration("20230212190159_AddUsersSeeds")]
+    partial class AddUsersSeeds
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,64 @@ namespace HardTrain.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("HardTrain.DAL.Entities.PostScope.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("HardTrain.DAL.Entities.PostScope.Post", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Posts");
+                });
 
             modelBuilder.Entity("HardTrain.DAL.Entities.TrainingScope.Exersice", b =>
                 {
@@ -294,6 +352,29 @@ namespace HardTrain.DAL.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("b13c0935-3467-4fa9-ae84-267197263f25"),
+                            ConcurrencyStamp = "1",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = new Guid("6f8450e1-82bf-4df0-8540-d8d85f6e409a"),
+                            ConcurrencyStamp = "2",
+                            Name = "Client",
+                            NormalizedName = "CLIENT"
+                        },
+                        new
+                        {
+                            Id = new Guid("b025bb01-2eb4-4d45-bb28-e3fc4c139d80"),
+                            ConcurrencyStamp = "3",
+                            Name = "Manager",
+                            NormalizedName = "MANAGER"
+                        });
                 });
 
             modelBuilder.Entity("HardTrain.DAL.Entities.UserResultScope.TrainingResult", b =>
@@ -402,27 +483,91 @@ namespace HardTrain.DAL.Migrations
                         {
                             Id = new Guid("a0a28231-c733-4acf-aa5b-46a26e1a11ed"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e308b5ff-5b41-4bc1-a1de-a5e52589d6b6",
-                            Email = "gg@gmail.com",
+                            ConcurrencyStamp = "a3d053cd-e538-4268-8985-02cf7f5a5964",
+                            Email = "safd@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Oleksandr",
                             LastName = "Bendujik",
                             LockoutEnabled = false,
+                            NormalizedEmail = "SAFD@GMAIL.COM",
+                            NormalizedUserName = "SAFD@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOC89e/tp58Leey+5m4ptf3wNCbfhFUx8Qljg5Ts+TWgaFDZJvfFKeihYgHbTRrvwA==",
                             PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false
+                            SecurityStamp = "654f6985-3739-4457-8c20-439d50c1f0ff",
+                            TwoFactorEnabled = false,
+                            UserName = "safd@gmail.com"
                         },
                         new
                         {
                             Id = new Guid("1bdd1192-19fa-47ad-8ee4-705e02f226b7"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d6b05e7e-7d8e-44e8-9e40-a463cde5c0d5",
-                            Email = "test@gmail.com",
+                            ConcurrencyStamp = "9cdbc4f0-18ef-425f-a001-707c9522763d",
+                            Email = "qwe@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Harry",
                             LastName = "Evans",
                             LockoutEnabled = false,
+                            NormalizedEmail = "QWE@GMAIL.COM",
+                            NormalizedUserName = "QWE@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIsu09Sp+XiPC5eP11wtO1mseO+sr+D82YDATK3CjEzkWcyKV+r6I84ZOG9zesFdlg==",
                             PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false
+                            SecurityStamp = "bf9922e8-3c69-4dee-9961-65c70e29072c",
+                            TwoFactorEnabled = false,
+                            UserName = "qwe@gmail.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("1ef65a80-45e1-4efa-8070-96ea00898357"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "c7177fc3-4b79-4678-91f5-7c7997142906",
+                            Email = "asd@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Olga",
+                            LastName = "Strange",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ASD@GMAIL.COM",
+                            NormalizedUserName = "ASD@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFdlXcOGyYBVIUaZg7TjVEM4vpFihcduC+jzvZHEHEAmwjIMANObxIOTJCXpQVlLug==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "edd31d71-3bcc-475c-8b38-b50b731baaaa",
+                            TwoFactorEnabled = false,
+                            UserName = "asd@gmail.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("e9b9bf1f-b24f-4c96-90b5-413d21943f18"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "5d6e8959-1164-4b5f-85be-5dd5a6dc0c4b",
+                            Email = "xcv@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Hloya",
+                            LastName = "Abrams",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "XCV@GMAIL.COM",
+                            NormalizedUserName = "ZXC@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBym3+SJbkmPjhKxJty3aYV+zzfussy5kDoQk/9LGahwQ3VSdMKVpw4IUNjFC5ysHQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "2e28282b-b3ee-4e6f-bd2a-76ab43a3638c",
+                            TwoFactorEnabled = false,
+                            UserName = "xcv@gmail.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("6fa67588-40fb-4cc2-a574-deca54a5b811"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d5ab11fd-2a52-4321-8363-031921ec5b1b",
+                            Email = "admin@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Admin",
+                            LastName = "Default",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@GMAIL.COM",
+                            NormalizedUserName = "ADMIN@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEACMlZ+wWZHT4qQLFJtqCP4+tAZftEgupNMfgtJHIkjijsBo1sE37NYMj4XAxxU75Q==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "1cf5e64d-1c2f-466e-9978-636a70a10347",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@gmail.com"
                         });
                 });
 
@@ -508,6 +653,33 @@ namespace HardTrain.DAL.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("a0a28231-c733-4acf-aa5b-46a26e1a11ed"),
+                            RoleId = new Guid("6f8450e1-82bf-4df0-8540-d8d85f6e409a")
+                        },
+                        new
+                        {
+                            UserId = new Guid("1bdd1192-19fa-47ad-8ee4-705e02f226b7"),
+                            RoleId = new Guid("6f8450e1-82bf-4df0-8540-d8d85f6e409a")
+                        },
+                        new
+                        {
+                            UserId = new Guid("1ef65a80-45e1-4efa-8070-96ea00898357"),
+                            RoleId = new Guid("6f8450e1-82bf-4df0-8540-d8d85f6e409a")
+                        },
+                        new
+                        {
+                            UserId = new Guid("e9b9bf1f-b24f-4c96-90b5-413d21943f18"),
+                            RoleId = new Guid("b025bb01-2eb4-4d45-bb28-e3fc4c139d80")
+                        },
+                        new
+                        {
+                            UserId = new Guid("6fa67588-40fb-4cc2-a574-deca54a5b811"),
+                            RoleId = new Guid("b13c0935-3467-4fa9-ae84-267197263f25")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -527,6 +699,50 @@ namespace HardTrain.DAL.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("SharedModules.Infrastructure.Identity.Models.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("RemoteIpAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RefreshTokens");
+                });
+
+            modelBuilder.Entity("HardTrain.DAL.Entities.PostScope.Comment", b =>
+                {
+                    b.HasOne("HardTrain.DAL.Entities.PostScope.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HardTrain.DAL.Entities.UserResultScope.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HardTrain.DAL.Entities.TrainingScope.TrainingExersice", b =>

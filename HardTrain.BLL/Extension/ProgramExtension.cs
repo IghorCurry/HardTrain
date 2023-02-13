@@ -1,5 +1,6 @@
-﻿using HardTrain.BLL.Contracts;
+﻿using HardTrain.BLL.Abstractions;
 using HardTrain.BLL.Managers;
+using HardTrain.BLL.Services;
 using HardTrain.DAL;
 using HardTrain.DAL.Setting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,9 @@ public static class ProgramExtension
         services.AddScoped<IUserManager, UserManager>();
         services.AddScoped<ITrainingResultManager, TrainingResultManager>();
         services.AddScoped<IDataContext, DataContext>();
+        services.AddScoped<ICommentManager, CommentManager>();
+        services.AddScoped<IPostManager, PostManager>();
+        services.AddScoped<IUserIdentifierService, UserIdentifierService>();
     }
 
     public static IServiceCollection ConfigureSettingsModels(this IServiceCollection services, IConfiguration configuration)

@@ -1,5 +1,6 @@
 ﻿using HardTrain.DAL.Configuration;
 using HardTrain.DAL.DataSeeds;
+using HardTrain.DAL.Entities.PostScope;
 using HardTrain.DAL.Entities.TrainingScope;
 using HardTrain.DAL.Entities.UserResultScope;
 using HardTrain.DAL.Setting;
@@ -13,7 +14,7 @@ namespace HardTrain.DAL
 {
     public class DataContext : IdentityDbContext<User, Role, Guid>, IDataContext
     {
-       
+
         private DefaultAdminSettings _defaultAdminSettings { get; init; }
         public DataContext(DbContextOptions<DataContext> options, IOptions<DefaultAdminSettings> defaultAdminSettings) : base(options)
         {
@@ -25,6 +26,8 @@ namespace HardTrain.DAL
         public DbSet<Training> Trainings { get; set; }
         public DbSet<ExersiceResult> ExersiceResults { get; set; }
         public DbSet<TrainingResult> TrainingResults { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; }
 
 

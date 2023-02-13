@@ -1,4 +1,4 @@
-﻿using HardTrain.BLL.Contracts;
+﻿using HardTrain.BLL.Abstractions;
 using HardTrain.BLL.Models.TrainingResultModels;
 using HardTrain.DAL;
 using HardTrain.DAL.Entities.UserResultScope;
@@ -13,11 +13,13 @@ namespace HardTrain.BLL.Managers
     {
         private readonly DataContext _dataContext;
         private readonly ILogger _logger;
+        private readonly IUserIdentifierService _identifier;
 
-        public TrainingResultManager(DataContext context, ILogger<TrainingResultManager> logger)
+        public TrainingResultManager(DataContext context, ILogger<TrainingResultManager> logger, IUserIdentifierService identifier)
         {
             _dataContext = context;
             _logger = logger;
+            _identifier = identifier;
         }
         public async Task<TrainingResultViewModel> CreateTrainingResultAsync(TrainingResultCreateModel model)
         {
@@ -76,24 +78,20 @@ namespace HardTrain.BLL.Managers
             return true;
         }
 
-        public async Task<IEnumerable<TrainingResultViewModel>> GetAllAsync()
+        public async Task<IEnumerable<TrainingResultViewModel>> GetByCurrentUserAsync()
         {
             try
             {
-                return await _dataContext.TrainingResults.Select(x => new TrainingResultViewModel
-                {
-                    Id = x.Id,
-                    ExecutionDate = x.ExecutionDate,
-                    TrainingId = x.TrainingId,
-                    UserId = x.UserId,
-                    Note = x.Note,
-                    ExersiceResults = x.ExersiceResults
-                }).ToListAsync();
+                var user = _identifier.GetCurrentUser();
+                return await _dataContext.TrainingResults
+                    .ProjectToType<TrainingResultViewModel>()
+                    .Where(x => x.UserId == user.Id)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"An error occurred while getting all training results.");
-                return null;
+                throw; /*new Exception("An error occurred while getting all training results.");*/
             }
         }
 
@@ -101,15 +99,9 @@ namespace HardTrain.BLL.Managers
         {
             try
             {
-                return await _dataContext.TrainingResults.Select(x => new TrainingResultViewModel
-                {
-                    Id = x.Id,
-                    ExecutionDate = x.ExecutionDate,
-                    TrainingId = x.TrainingId,
-                    UserId = x.UserId,
-                    Note = x.Note,
-                    ExersiceResults = x.ExersiceResults
-                }).FirstOrDefaultAsync(x => x.Id == id);
+                return await _dataContext.TrainingResults
+                    .ProjectToType<TrainingResultViewModel>()
+                    .FirstAsync(x => x.Id == id);
 
             }
             catch (Exception ex)
